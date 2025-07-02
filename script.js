@@ -675,48 +675,48 @@
 
         function handleFormSubmit(event) {
             event.preventDefault();
-            
             const form = event.target;
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            
+
             // Basic validation
             if (!data.fullName || !data.email) {
                 alert('Please fill in all required fields.');
                 return;
             }
-            
             // Email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(data.email)) {
                 alert('Please enter a valid email address.');
                 return;
             }
-            
-            // Simulate form submission
+
             const submitButton = form.querySelector('button[type="submit"]');
             const originalText = submitButton.textContent;
-            
             submitButton.textContent = 'Submitting...';
             submitButton.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Show success message
+
+            // Send to n8n webhook
+            fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/9d52093d-e1e3-4d4d-9ae3-b72c10cbe0e0', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Webhook error');
+                return res.json().catch(() => ({}));
+            })
+            .then(() => {
                 const successMessage = document.createElement('div');
                 successMessage.className = 'bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4';
                 successMessage.innerHTML = `
                     <p class="font-semibold">Thank you for your interest!</p>
                     <p>We'll be in touch within 24 hours to schedule your free consultation.</p>
                 `;
-                
                 form.parentNode.insertBefore(successMessage, form);
                 form.reset();
-                
                 submitButton.textContent = 'Message Sent!';
                 submitButton.style.background = 'linear-gradient(to right, #10B981, #059669)';
-                
-                // Reset button after 3 seconds
                 setTimeout(() => {
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
@@ -725,8 +725,12 @@
                         successMessage.parentNode.removeChild(successMessage);
                     }
                 }, 3000);
-                
-            }, 2000);
+            })
+            .catch(() => {
+                alert('There was a problem submitting the form. Please try again later.');
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            });
         }
 
         // --- Chatbot via n8n Webhook ---
@@ -786,3 +790,37 @@
             return data.reply || data.response || data.message || 'No response from agent.';
         }
         // --- End chatbot via n8n Webhook ---
+
+        // Toggle chat interface visibility
+        function toggleChat() {
+            let chatContainer = document.getElementById('chatContainer');
+            if (!chatContainer) {
+                // If chat container doesn't exist, create and append it
+                chatContainer = document.createElement('div');
+                chatContainer.id = 'chatContainer';
+                chatContainer.className = 'chat-container fixed bottom-24 right-8 z-50 bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-2xl p-4 w-80 max-w-full flex flex-col';
+                chatContainer.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <img src='Web Images/Daniel.png' alt='Daniel' class='h-8 w-8 rounded-full mr-2'>
+                        <span class='font-bold text-[var(--color-primary)]'>Talk to Daniel</span>
+                        <button onclick="toggleChat()" class="ml-auto text-gray-400 hover:text-white text-xl font-bold">&times;</button>
+                    </div>
+                    <div id="chatMessages" class="flex-1 overflow-y-auto mb-2 bg-black/30 rounded p-2" style="max-height: 300px;"></div>
+                    <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
+                    <div class="flex">
+                        <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeydown="if(event.key==='Enter'){sendMessage();}">
+                        <button onclick="sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
+                    </div>
+                `;
+                document.body.appendChild(chatContainer);
+                setTimeout(() => chatContainer.classList.add('visible'), 10);
+            } else {
+                if (chatContainer.style.display === 'none' || getComputedStyle(chatContainer).display === 'none') {
+                    chatContainer.style.display = 'flex';
+                    setTimeout(() => chatContainer.classList.add('visible'), 10);
+                } else {
+                    chatContainer.classList.remove('visible');
+                    setTimeout(() => chatContainer.style.display = 'none', 200);
+                }
+            }
+        }
