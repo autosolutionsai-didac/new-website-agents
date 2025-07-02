@@ -817,16 +817,20 @@
                     <div id="chatMessages" class="flex-1 overflow-y-auto mb-2 bg-black/30 rounded p-2" style="max-height: 300px;"></div>
                     <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
                     <div class="flex">
-                        <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeydown="if(event.key==='Enter'){sendMessage();}">
+                        <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message...">
                         <button onclick="sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
                     </div>
                 `;
                 document.body.appendChild(chatContainer);
                 
-                // Add welcome message after a small delay to ensure DOM is ready
-                setTimeout(() => {
-                    addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
-                }, 100);
+                // Set up event listener for Enter key
+                const chatInput = document.getElementById('chatInput');
+                if (chatInput) {
+                    chatInput.addEventListener('keydown', handleKeyPress);
+                }
+                
+                // Add welcome message immediately 
+                addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
             }
             chatContainer.style.display = 'flex';
             if (chatBubble) chatBubble.style.display = 'none';
