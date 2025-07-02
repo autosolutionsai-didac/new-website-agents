@@ -832,7 +832,7 @@
              }, 30000);
              
              // Send to webhook
-             fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/1dea1ecd-3a21-4750-b932-2b911b3a0921', {
+             fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/4fccff12-dcf2-4b31-8b80-0f87611e521f', {
                  method: 'POST',
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ message: message, sessionId: sessionId })
