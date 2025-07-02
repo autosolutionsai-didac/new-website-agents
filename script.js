@@ -728,3 +728,61 @@
                 
             }, 2000);
         }
+
+        // --- Chatbot via n8n Webhook ---
+        const N8N_WEBHOOK_URL = 'https://autosolutions-ai-cloud.app.n8n.cloud/webhook/4fccff12-dcf2-4b31-8b80-0f87611e521f';
+        let sessionId = localStorage.getItem('chatSessionId');
+        if (!sessionId) {
+            sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now();
+            localStorage.setItem('chatSessionId', sessionId);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            addChatMessage('user', message);
+            input.value = '';
+            showTypingIndicator(true);
+            sendToWebhook(message, sessionId)
+                .then(botReply => {
+                    addChatMessage('bot', botReply);
+                    showTypingIndicator(false);
+                })
+                .catch(() => {
+                    addChatMessage('bot', 'Sorry, there was a problem connecting to Daniel. Please try again later.');
+                    showTypingIndicator(false);
+                });
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') sendMessage();
+        }
+
+        function addChatMessage(sender, text) {
+            const chatMessages = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message ${sender}`;
+            msgDiv.innerHTML = sender === 'bot'
+                ? `<div class="chat-message-avatar"><img src="Web Images/Daniel.png" alt="Daniel"></div><div class="chat-message-content">${text}</div>`
+                : `<div class="chat-message-content">${text}</div>`;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator(show) {
+            document.getElementById('typingIndicator').style.display = show ? 'block' : 'none';
+        }
+
+        async function sendToWebhook(message, sessionId) {
+            const res = await fetch(N8N_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, sessionId })
+            });
+            if (!res.ok) throw new Error('Webhook error');
+            const data = await res.json();
+            // Expecting response: { reply: "..." } or similar
+            return data.reply || data.response || data.message || 'No response from agent.';
+        }
+        // --- End chatbot via n8n Webhook ---
