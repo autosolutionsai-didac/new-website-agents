@@ -822,6 +822,9 @@
                     </div>
                 `;
                 document.body.appendChild(chatContainer);
+                
+                // Add welcome message
+                addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
             }
             chatContainer.style.display = 'flex';
             if (chatBubble) chatBubble.style.display = 'none';
