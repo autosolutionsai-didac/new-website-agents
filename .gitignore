@@ -1,0 +1,36 @@
+# Zone.Identifier files
+*.Zone.Identifier
+
+# mshield files
+*.mshield
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+index_temp.html
+index_old.html
+index_proper.html
+
+# Script files (if needed locally)
+push_to_github.sh
+update_coming_soon.sh
+
+# Test files
+test.txt
+*.test.*

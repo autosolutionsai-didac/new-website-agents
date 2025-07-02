@@ -1,0 +1,824 @@
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            // Implementation for mobile menu
+        }
+        
+        // Chat Interface Toggle
+        let chatInterface = null;
+        let simliSession = null;
+        
+        async function toggleChat() {
+            if (!chatInterface) {
+                chatInterface = document.getElementById('chatInterface');
+            }
+            
+            if (chatInterface.style.display === 'none' || chatInterface.style.display === '') {
+                // Show chat interface
+                chatInterface.style.display = 'flex';
+                
+                // Initialize Simli AI session if not already done
+                if (!simliSession) {
+                    try {
+                        const response = await fetch("https://api.simli.ai/session/48ba2ad4-cec8-4b4b-b0ec-59d10525ae87/gAAAAABoZLmBmr8oTaW1juzFnxgFNJjojWYA9niMFz0gs6Q_-sLvb6i9uSE0F0Ob9GPJyhOhMclax_Xn5aXL8q_ZMp9HcF1LzvuC2c8kGBMaIntnpSWy2hF1C3NovsOj1nfOhsvFll1NW1P7ys9rVFdU3zM6sMwufYua9E5f2hmFiZpNTpoS2xxTm-oIldi5nwLNSR7seF7bVua7KSr8msybuC1CjOC2D_A9jaHlMTIO0k7eT4ubDCG12eM1R-XYJmVfJXcYtHX12y-4t2pYBW_M3Y3DB1rJhLOoMMxpDgzg66qJyO6YIJXfenOK5Or3THTMy_iJbC3rC43228r2QYSOOLYzrKkKKO2y1WVP9mbE_0ZqUCRstXPXkUbWWRNzYI1BiBqWM0QGrIoutS4ImzwdSqUV56eFaw==", {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Accept": "application/json",
+                            },
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            simliSession = data;
+                            console.log('Simli AI session initialized:', data.roomUrl);
+                        }
+                    } catch (error) {
+                        console.error('Failed to initialize Simli AI:', error);
+                    }
+                }
+                
+                // Focus on input
+                setTimeout(() => {
+                    document.getElementById('chatInput').focus();
+                }, 100);
+            } else {
+                // Hide chat interface
+                chatInterface.style.display = 'none';
+            }
+        }
+        
+        // Handle Enter key press in chat input
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        // Send chat message
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'chat-message user';
+            userMessageDiv.textContent = message;
+            chatMessages.appendChild(userMessageDiv);
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'flex';
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Simulate AI response (replace with actual Simli AI integration)
+            setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'chat-message bot';
+                
+                // Simple responses based on keywords
+                let response = "I'd be happy to help you with that! ";
+                
+                if (message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
+                    response += "Our pricing starts at $1,999/month for the Growth plan with 3 agents. We also offer Scale ($3,999/month with 5 agents) and Premium (custom pricing) plans. Would you like more details about a specific plan?";
+                } else if (message.toLowerCase().includes('agent') || message.toLowerCase().includes('team')) {
+                    response += "We have 5 specialized AI agents: James (Researcher), Alex (Cold Caller), Maya (Inbound Sales), Ian (Data Engineer), and Tiffany (Customer Service). Each agent is designed to handle specific tasks and work together seamlessly. Which agent would you like to know more about?";
+                } else if (message.toLowerCase().includes('demo') || message.toLowerCase().includes('trial')) {
+                    response += "I'd love to arrange a demo for you! Click the 'Start Free Consultation' button on our website, and we'll set up a personalized demonstration of our AI agents in action.";
+                } else {
+                    response += "Our AI agents can help automate your business processes, saving you time and money. Would you like to know more about our agents, pricing, or see a demo?";
+                }
+                
+                botMessageDiv.textContent = response;
+                chatMessages.appendChild(botMessageDiv);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1500);
+        }
+        
+        // FAQ Accordion
+        function toggleFAQ(index) {
+            const faqs = document.querySelectorAll('.faq-content');
+            const icons = document.querySelectorAll('.faq-icon');
+            
+            faqs[index].classList.toggle('hidden');
+            icons[index].classList.toggle('rotate-180');
+        }
+        
+        // Testimonial Slider
+        let currentTestimonial = 0;
+        const testimonialSlider = document.getElementById('testimonialSlider');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+        
+        function changeTestimonial(index) {
+            currentTestimonial = index;
+            testimonialSlider.style.transform = `translateX(-${index * 100}%)`;
+            
+            testimonialDots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('bg-[var(--color-primary)]');
+                    dot.classList.remove('bg-gray-300');
+                } else {
+                    dot.classList.remove('bg-[var(--color-primary)]');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+        
+        // Auto-rotate testimonials
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % 3;
+            changeTestimonial(currentTestimonial);
+        }, 5000);
+        
+        // Network visualization
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        const agentNodesContainer = document.getElementById('agent-nodes');
+        const agentInfo = document.getElementById('agent-info');
+        
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Agent data with enhanced properties
+        const agents = [
+            { 
+                name: 'James', 
+                role: 'Researcher',
+                x: 0.5, 
+                y: 0.12, 
+                color: '#00FF88',
+                pulseColor: '#00FFB3',
+                description: 'Finds and validates prospect data',
+                icon: '🔍',
+                rotation: 0,
+                orbitRadius: 200,
+                orbitSpeed: 0.02
+            },
+            { 
+                name: 'Alex', 
+                role: 'Cold Caller',
+                x: 0.88, 
+                y: 0.35, 
+                color: '#00FFB3',
+                pulseColor: '#00FFDD',
+                description: 'Qualifies leads and books meetings',
+                icon: '📞',
+                rotation: 60,
+                orbitRadius: 200,
+                orbitSpeed: 0.018
+            },
+            { 
+                name: 'Maya', 
+                role: 'Inbound Sales',
+                x: 0.88, 
+                y: 0.65, 
+                color: '#00FF88',
+                pulseColor: '#00FFB3',
+                description: 'Handles incoming inquiries',
+                icon: '💬',
+                rotation: 120,
+                orbitRadius: 200,
+                orbitSpeed: 0.022
+            },
+            { 
+                name: 'Ian', 
+                role: 'Data Engineer',
+                x: 0.5, 
+                y: 0.88, 
+                color: '#00FFB3',
+                pulseColor: '#00FFDD',
+                description: 'Processes and analyzes data',
+                icon: '📊',
+                rotation: 180,
+                orbitRadius: 200,
+                orbitSpeed: 0.019
+            },
+            { 
+                name: 'Tiffany', 
+                role: 'Customer Service',
+                x: 0.12, 
+                y: 0.65, 
+                color: '#00FF88',
+                pulseColor: '#00FFB3',
+                description: 'Provides 24/7 support',
+                icon: '🎧',
+                rotation: 240,
+                orbitRadius: 200,
+                orbitSpeed: 0.021
+            },
+            { 
+                name: 'New Agent', 
+                role: 'Coming Soon',
+                x: 0.12, 
+                y: 0.35, 
+                color: '#00FFB3',
+                pulseColor: '#00FFDD',
+                description: 'Custom-built for your needs',
+                icon: '🚀',
+                rotation: 300,
+                orbitRadius: 200,
+                orbitSpeed: 0.02
+            }
+        ];
+        
+        let hoveredAgent = null;
+        let particles = [];
+        let connections = [];
+        let animationTime = 0;
+        let activityBursts = [];
+        let activeConnections = new Set();
+        
+        // Create more sophisticated particles
+        for (let i = 0; i < 150; i++) {
+            particles.push({
+                x: Math.random(),
+                y: Math.random(),
+                vx: (Math.random() - 0.5) * 0.001,
+                vy: (Math.random() - 0.5) * 0.001,
+                size: Math.random() * 2 + 0.5,
+                opacity: Math.random() * 0.6 + 0.1,
+                color: Math.random() > 0.5 ? '#00FF88' : '#00FFB3'
+            });
+        }
+        
+        // Create enhanced data flow connections
+        // Agent to center connections
+        agents.forEach((agent, i) => {
+            connections.push({
+                from: i,
+                to: 'center',
+                type: 'primary',
+                particles: Array(3).fill(null).map((_, j) => ({
+                    progress: j * 0.33,
+                    speed: 0.003 + Math.random() * 0.002,
+                    size: 2 + Math.random() * 2
+                }))
+            });
+        });
+        
+        // Inter-agent connections for real-time collaboration
+        const interAgentConnections = [
+            { from: 0, to: 1, type: 'collaboration' }, // James to Alex
+            { from: 1, to: 2, type: 'collaboration' }, // Alex to Maya
+            { from: 0, to: 3, type: 'data' }, // James to Ian
+            { from: 3, to: 2, type: 'data' }, // Ian to Maya
+            { from: 2, to: 4, type: 'collaboration' }, // Maya to Tiffany
+            { from: 3, to: 4, type: 'data' }, // Ian to Tiffany
+            { from: 1, to: 4, type: 'collaboration' }, // Alex to Tiffany
+            { from: 0, to: 2, type: 'data' }, // James to Maya
+            { from: 3, to: 1, type: 'data' }, // Ian to Alex
+            { from: 4, to: 0, type: 'feedback' }, // Tiffany to James
+            { from: 4, to: 1, type: 'feedback' }, // Tiffany to Alex
+            { from: 2, to: 3, type: 'analysis' }, // Maya to Ian
+            { from: 1, to: 3, type: 'sync' }, // Alex to Ian
+            { from: 0, to: 4, type: 'sync' }, // James to Tiffany
+            { from: 5, to: 0, type: 'data' }, // New Agent to James
+            { from: 5, to: 3, type: 'collaboration' }, // New Agent to Ian
+            { from: 2, to: 5, type: 'sync' }, // Maya to New Agent
+            { from: 4, to: 5, type: 'feedback' }, // Tiffany to New Agent
+        ];
+        
+        interAgentConnections.forEach(conn => {
+            connections.push({
+                from: conn.from,
+                to: conn.to,
+                type: conn.type,
+                particles: Array(2).fill(null).map((_, j) => ({
+                    progress: Math.random(),
+                    speed: 0.002 + Math.random() * 0.003,
+                    size: 1.5 + Math.random() * 1.5,
+                    direction: Math.random() > 0.5 ? 1 : -1
+                }))
+            });
+        });
+        
+        // Create agent HTML nodes
+        function createAgentNodes() {
+            agents.forEach((agent, i) => {
+                const node = document.createElement('div');
+                node.className = 'agent-node absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer';
+                node.style.left = `${agent.x * 100}%`;
+                node.style.top = `${agent.y * 100}%`;
+                node.innerHTML = `
+                    <div class="relative group">
+                        <div class="absolute -inset-8 bg-gradient-to-r from-[${agent.color}] to-[${agent.pulseColor}] rounded-full opacity-0 group-hover:opacity-70 transition-all duration-500 blur-2xl animate-pulse"></div>
+                        <div class="absolute -inset-6 bg-gradient-to-r from-[${agent.color}] to-transparent rounded-full opacity-30 group-hover:opacity-50 transition-all duration-300 blur-xl"></div>
+                        <div class="relative bg-black/80 border-2 border-[${agent.color}] rounded-full p-1 backdrop-blur-xl group-hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_${agent.color}]">
+                            <div class="absolute inset-0 bg-gradient-to-br from-[${agent.color}]/20 to-transparent rounded-full"></div>
+                            <div class="relative z-10 w-20 h-20">
+                                <img src="Web Images/${agent.name}.png" alt="${agent.name}" class="w-full h-full rounded-full object-cover animate-pulse" style="animation-delay: ${i * 0.1}s" onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                node.addEventListener('mouseenter', () => {
+                    hoveredAgent = i;
+                    agentInfo.querySelector('h4').textContent = `${agent.name} - ${agent.role}`;
+                    agentInfo.querySelector('p').textContent = agent.description;
+                    agentInfo.style.opacity = '1';
+                });
+                
+                node.addEventListener('mouseleave', () => {
+                    hoveredAgent = null;
+                    agentInfo.style.opacity = '0';
+                });
+                
+                agentNodesContainer.appendChild(node);
+            });
+        }
+        
+        createAgentNodes();
+        
+        function drawNetwork() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            animationTime += 0.01;
+            
+            // Create gradient background
+            const bgGradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width/2);
+            bgGradient.addColorStop(0, 'rgba(0, 255, 136, 0.02)');
+            bgGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Enhanced background particles
+            particles.forEach((particle, i) => {
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                
+                if (particle.x < 0 || particle.x > 1) particle.vx *= -1;
+                if (particle.y < 0 || particle.y > 1) particle.vy *= -1;
+                
+                // Create particle trails
+                const trail = 5;
+                for(let t = 0; t < trail; t++) {
+                    const alpha = particle.opacity * (1 - t/trail) * 0.5;
+                    ctx.fillStyle = `rgba(0, 255, 136, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(
+                        (particle.x - particle.vx * t * 10) * canvas.width, 
+                        (particle.y - particle.vy * t * 10) * canvas.height, 
+                        particle.size * (1 - t/trail), 
+                        0, Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+                
+                // Connect nearby particles
+                particles.slice(i + 1).forEach(other => {
+                    const dx = particle.x - other.x;
+                    const dy = particle.y - other.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 0.15 && distance > 0) {
+                        const opacity = 0.3 * (1 - distance / 0.15);
+                        ctx.strokeStyle = `rgba(0, 255, 136, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x * canvas.width, particle.y * canvas.height);
+                        ctx.lineTo(other.x * canvas.width, other.y * canvas.height);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Update agent positions for orbital movement
+            agents.forEach((agent, i) => {
+                agent.rotation += agent.orbitSpeed;
+                const angle = (agent.rotation * Math.PI / 180);
+                const radius = Math.min(canvas.width, canvas.height) * 0.35;
+                agent.currentX = centerX + Math.cos(angle) * radius;
+                agent.currentY = centerY + Math.sin(angle) * radius;
+                
+                // Update DOM node position
+                const node = agentNodesContainer.children[i];
+                if (node) {
+                    node.style.left = `${agent.currentX}px`;
+                    node.style.top = `${agent.currentY}px`;
+                }
+            });
+            
+            // Draw energy field around center
+            for(let ring = 0; ring < 3; ring++) {
+                const ringRadius = 120 + ring * 30 + Math.sin(animationTime * 2 + ring) * 10;
+                ctx.strokeStyle = `rgba(0, 255, 136, ${0.2 - ring * 0.05})`;
+                ctx.lineWidth = 2 - ring * 0.5;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, ringRadius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Draw dynamic connections
+            connections.forEach((connection, connIndex) => {
+                const fromAgent = agents[connection.from];
+                const fromX = fromAgent.currentX || fromAgent.x * canvas.width;
+                const fromY = fromAgent.currentY || fromAgent.y * canvas.height;
+                
+                let toX, toY, connectionColor, lineStyle;
+                
+                if (connection.to === 'center') {
+                    // Connection to company center
+                    toX = centerX;
+                    toY = centerY;
+                    connectionColor = fromAgent.color;
+                    lineStyle = 'solid';
+                } else {
+                    // Inter-agent connection
+                    const toAgent = agents[connection.to];
+                    toX = toAgent.currentX || toAgent.x * canvas.width;
+                    toY = toAgent.currentY || toAgent.y * canvas.height;
+                    
+                    // Different colors for different connection types
+                    if (connection.type === 'collaboration') {
+                        connectionColor = '#00FFDD';
+                        lineStyle = 'dashed';
+                    } else if (connection.type === 'data') {
+                        connectionColor = '#00FF88';
+                        lineStyle = 'dotted';
+                    } else if (connection.type === 'feedback') {
+                        connectionColor = '#FFD700';
+                        lineStyle = 'double';
+                    } else if (connection.type === 'analysis') {
+                        connectionColor = '#FF00FF';
+                        lineStyle = 'wave';
+                    } else if (connection.type === 'sync') {
+                        connectionColor = '#00DDFF';
+                        lineStyle = 'pulse';
+                    }
+                }
+                
+                // Draw connection line
+                ctx.save();
+                if (lineStyle === 'dashed') {
+                    ctx.setLineDash([5, 5]);
+                } else if (lineStyle === 'dotted') {
+                    ctx.setLineDash([2, 3]);
+                }
+                
+                const isHovered = hoveredAgent === connection.from || hoveredAgent === connection.to;
+                ctx.strokeStyle = connectionColor;
+                ctx.lineWidth = isHovered ? 2 : 1;
+                ctx.globalAlpha = isHovered ? 0.8 : (connection.to === 'center' ? 0.4 : 0.3);
+                
+                // Create dynamic curve
+                const curve = Math.sin(animationTime * 2 + connIndex) * 30;
+                const midX = (fromX + toX) / 2 + curve;
+                const midY = (fromY + toY) / 2 + curve;
+                
+                ctx.beginPath();
+                ctx.moveTo(fromX, fromY);
+                ctx.quadraticCurveTo(midX, midY, toX, toY);
+                ctx.stroke();
+                ctx.restore();
+                
+                // Enhanced data flow particles
+                connection.particles.forEach((particle, pIndex) => {
+                    // Update particle progress
+                    if (particle.direction) {
+                        particle.progress += particle.speed * particle.direction;
+                        if (particle.progress > 1 || particle.progress < 0) {
+                            particle.direction *= -1;
+                        }
+                    } else {
+                        particle.progress += particle.speed;
+                        if (particle.progress > 1) particle.progress = 0;
+                    }
+                    
+                    // Calculate position along curve
+                    const t = Math.max(0, Math.min(1, particle.progress));
+                    const px = Math.pow(1-t, 2) * fromX + 2 * (1-t) * t * midX + Math.pow(t, 2) * toX;
+                    const py = Math.pow(1-t, 2) * fromY + 2 * (1-t) * t * midY + Math.pow(t, 2) * toY;
+                    
+                    // Multi-layer glow effect
+                    for(let layer = 3; layer > 0; layer--) {
+                        const glowGradient = ctx.createRadialGradient(px, py, 0, px, py, particle.size * layer * 2);
+                        glowGradient.addColorStop(0, connectionColor);
+                        glowGradient.addColorStop(0.5, connectionColor);
+                        glowGradient.addColorStop(1, 'transparent');
+                        
+                        ctx.fillStyle = glowGradient;
+                        ctx.globalAlpha = 0.2 / layer;
+                        ctx.beginPath();
+                        ctx.arc(px, py, particle.size * layer * 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    
+                    // Core particle
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = connectionColor;
+                    ctx.beginPath();
+                    ctx.arc(px, py, particle.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+            });
+            
+            // Draw activity bursts
+            activityBursts.forEach((burst, index) => {
+                burst.radius += burst.speed;
+                burst.opacity -= 0.02;
+                
+                if (burst.opacity > 0) {
+                    ctx.strokeStyle = `rgba(0, 255, 221, ${burst.opacity})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(burst.x, burst.y, burst.radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    // Inner ring
+                    ctx.strokeStyle = `rgba(0, 255, 136, ${burst.opacity * 0.5})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(burst.x, burst.y, burst.radius * 0.7, 0, Math.PI * 2);
+                    ctx.stroke();
+                } else {
+                    activityBursts.splice(index, 1);
+                }
+            });
+            
+            // Create random activity bursts
+            if (Math.random() < 0.02) {
+                const randomAgent = agents[Math.floor(Math.random() * agents.length)];
+                activityBursts.push({
+                    x: randomAgent.currentX,
+                    y: randomAgent.currentY,
+                    radius: 10,
+                    speed: 2,
+                    opacity: 0.8
+                });
+                
+                // Activate random connections
+                const numConnections = Math.floor(Math.random() * 3) + 1;
+                for (let i = 0; i < numConnections; i++) {
+                    const connId = Math.floor(Math.random() * connections.length);
+                    activeConnections.add(connId);
+                    setTimeout(() => activeConnections.delete(connId), 2000 + Math.random() * 3000);
+                }
+            }
+            
+            // Draw active agent indicators
+            agents.forEach((agent, i) => {
+                if (activeConnections.has(i) || Math.random() < 0.001) {
+                    const x = agent.currentX;
+                    const y = agent.currentY;
+                    
+                    ctx.fillStyle = `rgba(0, 255, 136, ${0.5 + Math.sin(animationTime * 10) * 0.3})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 45 + Math.sin(animationTime * 5) * 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+            
+            // Enhanced center hub effects
+            const pulseScale = 1 + Math.sin(animationTime * 2) * 0.15;
+            
+            // Multiple layered glows
+            for(let i = 3; i > 0; i--) {
+                const hubGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 80 * pulseScale * i/3);
+                hubGradient.addColorStop(0, `rgba(0, 255, 136, ${0.3/i})`);
+                hubGradient.addColorStop(0.5, `rgba(0, 255, 179, ${0.2/i})`);
+                hubGradient.addColorStop(1, 'transparent');
+                
+                ctx.fillStyle = hubGradient;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 80 * pulseScale * i/3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Rotating energy lines from center
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(animationTime);
+            for(let i = 0; i < 6; i++) {
+                ctx.rotate(Math.PI / 3);
+                const lineGradient = ctx.createLinearGradient(0, 0, 100, 0);
+                lineGradient.addColorStop(0, 'rgba(0, 255, 136, 0.5)');
+                lineGradient.addColorStop(1, 'transparent');
+                ctx.strokeStyle = lineGradient;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(100, 0);
+                ctx.stroke();
+            }
+            ctx.restore();
+            
+            requestAnimationFrame(drawNetwork);
+        }
+        
+        drawNetwork();
+        
+        // Update network statistics
+        function updateNetworkStats() {
+            // Update active connections counter
+            const activeConns = document.getElementById('activeConnections');
+            if (activeConns) {
+                const currentValue = parseInt(activeConns.textContent);
+                const targetValue = 15 + activeConnections.size + Math.floor(Math.random() * 10);
+                activeConns.textContent = Math.min(99, Math.max(15, currentValue + (targetValue > currentValue ? 1 : -1)));
+            }
+            
+            // Update data flow
+            const dataFlow = document.getElementById('dataFlow');
+            if (dataFlow) {
+                const currentValue = parseFloat(dataFlow.textContent);
+                const newValue = (currentValue + Math.random() * 0.1).toFixed(1);
+                dataFlow.textContent = newValue + 'TB';
+            }
+            
+            // Update tasks synced
+            const tasksSynced = document.getElementById('tasksSynced');
+            if (tasksSynced) {
+                const currentValue = parseInt(tasksSynced.textContent);
+                tasksSynced.textContent = currentValue + Math.floor(Math.random() * 3);
+            }
+            
+            // Update processing status
+            const processingStatus = document.getElementById('processingStatus');
+            if (processingStatus) {
+                const statuses = [
+                    'Processing...',
+                    'Analyzing data...',
+                    'Syncing agents...',
+                    'Optimizing routes...',
+                    'Learning patterns...',
+                    'Distributing tasks...'
+                ];
+                processingStatus.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+            }
+        }
+        
+        // Update activity feed
+        function updateActivityFeed() {
+            const activityFeed = document.getElementById('activity-feed');
+            if (activityFeed && Math.random() < 0.3) {
+                const activities = [
+                    'James → Alex: Lead qualified',
+                    'Ian → Maya: Data processed',
+                    'Maya → Tiffany: Customer updated',
+                    'Alex → James: Meeting booked',
+                    'Tiffany → Ian: Report generated',
+                    'James → Ian: New data source',
+                    'Maya → Alex: Follow-up scheduled',
+                    'Ian → Central Hub: Analysis complete',
+                    'Central Hub → All: Task distributed',
+                    'Alex → Maya: Lead transferred',
+                    'Tiffany → James: Feedback received',
+                    'New Agent → Ian: Learning from data'
+                ];
+                
+                const newActivity = document.createElement('div');
+                newActivity.className = 'animate-pulse text-xs text-gray-400';
+                newActivity.textContent = activities[Math.floor(Math.random() * activities.length)];
+                
+                activityFeed.insertBefore(newActivity, activityFeed.firstChild);
+                
+                // Keep only last 5 activities
+                while (activityFeed.children.length > 5) {
+                    activityFeed.removeChild(activityFeed.lastChild);
+                }
+            }
+        }
+        
+        // Update stats and feed periodically
+        setInterval(updateNetworkStats, 1000);
+        setInterval(updateActivityFeed, 2000);
+
+
+        // Chatbot functionality
+        let chatOpen = false;
+        const webhookUrl = ''; // To be replaced with n8n webhook URL
+        
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            const chatInterface = document.getElementById('chatInterface');
+            chatInterface.style.display = chatOpen ? 'flex' : 'none';
+            
+            if (chatOpen) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function showTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            const chatMessages = document.getElementById('chatMessages');
+            typingIndicator.style.display = 'block';
+            chatMessages.appendChild(typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = 'none';
+        }
+        
+        function addMessage(message, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            try {
+                if (webhookUrl) {
+                    // Send to webhook when URL is provided
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            timestamp: new Date().toISOString(),
+                            sessionId: generateSessionId()
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    hideTypingIndicator();
+                    addMessage(data.response || "I'm having trouble connecting. Please try again later.");
+                } else {
+                    // Default responses when webhook is not configured
+                    setTimeout(() => {
+                        hideTypingIndicator();
+                        const responses = [
+                            "That's a great question! Our AI employees can help transform your business operations. Would you like to know more about a specific agent?",
+                            "I'd be happy to explain how our virtual employees can save your company time and money. Which aspect interests you most?",
+                            "Our AI agents are designed to work 24/7 with zero downtime. They can handle tasks that would normally require multiple full-time employees.",
+                            "Each of our agents is specialized for different business functions. Would you like to hear about James (Sales), Tiffany (Support), Michael (Admin), Alex (Sales Dev), or Lisa (Scheduling)?",
+                            "To get started, we offer a free consultation to understand your needs and show you exactly how our AI employees can help your specific business."
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        addMessage(randomResponse);
+                    }, 1500);
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                addMessage("I'm having trouble connecting. Please try again later or contact us directly.");
+            }
+        }
+        
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
