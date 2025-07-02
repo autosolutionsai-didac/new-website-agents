@@ -1,0 +1,17 @@
+{
+  "name": "my-virtual-employee-website",
+  "version": "1.0.0",
+  "description": "AI Agents Website showcasing virtual employee services",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "start": "npx serve . -p 3000",
+    "preview": "npx serve . -p 3000"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "keywords": ["ai", "agents", "virtual-employee", "website"],
+  "author": "My Virtual Employee",
+  "license": "MIT"
+}
