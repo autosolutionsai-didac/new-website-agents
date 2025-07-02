@@ -823,8 +823,10 @@
                 `;
                 document.body.appendChild(chatContainer);
                 
-                // Add welcome message
-                addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
+                // Add welcome message after a small delay to ensure DOM is ready
+                setTimeout(() => {
+                    addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
+                }, 100);
             }
             chatContainer.style.display = 'flex';
             if (chatBubble) chatBubble.style.display = 'none';
