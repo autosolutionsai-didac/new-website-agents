@@ -741,30 +741,12 @@
             localStorage.setItem('chatSessionId', sessionId);
         }
 
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
-            addChatMessage('user', message);
-            input.value = '';
-            showTypingIndicator(true);
-            sendToWebhook(message, sessionId)
-                .then(botReply => {
-                    addChatMessage('bot', botReply);
-                    showTypingIndicator(false);
-                })
-                .catch(() => {
-                    addChatMessage('bot', 'Sorry, there was a problem connecting to Daniel. Please try again later.');
-                    showTypingIndicator(false);
-                });
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') sendMessage();
-        }
-
         function addChatMessage(sender, text) {
             const chatMessages = document.getElementById('chatMessages');
+            if (!chatMessages) {
+                console.error('chatMessages element not found');
+                return;
+            }
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-message ${sender}`;
             msgDiv.innerHTML = sender === 'bot'
@@ -774,8 +756,44 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        function sendMessage() {
+            console.log('sendMessage called');
+            const input = document.getElementById('chatInput');
+            if (!input) {
+                console.error('chatInput not found');
+                return;
+            }
+            const message = input.value.trim();
+            console.log('Message:', message);
+            if (!message) return;
+            addChatMessage('user', message);
+            input.value = '';
+            showTypingIndicator(true);
+            sendToWebhook(message, sessionId)
+                .then(botReply => {
+                    addChatMessage('bot', botReply);
+                    showTypingIndicator(false);
+                })
+                .catch((error) => {
+                    console.error('Webhook error:', error);
+                    addChatMessage('bot', 'Sorry, there was a problem connecting to Daniel. Please try again later.');
+                    showTypingIndicator(false);
+                });
+        }
+
+        function handleKeyPress(event) {
+            console.log('Key pressed:', event.key);
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
         function showTypingIndicator(show) {
-            document.getElementById('typingIndicator').style.display = show ? 'block' : 'none';
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.style.display = show ? 'block' : 'none';
+            }
         }
 
         async function sendToWebhook(message, sessionId) {
@@ -823,14 +841,19 @@
                 `;
                 document.body.appendChild(chatContainer);
                 
-                // Set up event listener for Enter key
-                const chatInput = document.getElementById('chatInput');
-                if (chatInput) {
-                    chatInput.addEventListener('keydown', handleKeyPress);
-                }
-                
-                // Add welcome message immediately 
-                addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
+                // Set up event listener for Enter key after DOM is added
+                setTimeout(() => {
+                    const chatInput = document.getElementById('chatInput');
+                    if (chatInput) {
+                        chatInput.addEventListener('keydown', handleKeyPress);
+                        console.log('Event listener added to chatInput');
+                    } else {
+                        console.error('chatInput not found after creation');
+                    }
+                    
+                    // Add welcome message
+                    addChatMessage('bot', "Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?");
+                }, 50);
             }
             chatContainer.style.display = 'flex';
             if (chatBubble) chatBubble.style.display = 'none';
