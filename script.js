@@ -23,7 +23,6 @@
         
         // Chat Interface Toggle
         let chatInterface = null;
-        let simliSession = null;
         
         async function toggleChat() {
             if (!chatInterface) {
@@ -33,27 +32,6 @@
             if (chatInterface.style.display === 'none' || chatInterface.style.display === '') {
                 // Show chat interface
                 chatInterface.style.display = 'flex';
-                
-                // Initialize Simli AI session if not already done
-                if (!simliSession) {
-                    try {
-                        const response = await fetch("https://api.simli.ai/session/48ba2ad4-cec8-4b4b-b0ec-59d10525ae87/gAAAAABoZLmBmr8oTaW1juzFnxgFNJjojWYA9niMFz0gs6Q_-sLvb6i9uSE0F0Ob9GPJyhOhMclax_Xn5aXL8q_ZMp9HcF1LzvuC2c8kGBMaIntnpSWy2hF1C3NovsOj1nfOhsvFll1NW1P7ys9rVFdU3zM6sMwufYua9E5f2hmFiZpNTpoS2xxTm-oIldi5nwLNSR7seF7bVua7KSr8msybuC1CjOC2D_A9jaHlMTIO0k7eT4ubDCG12eM1R-XYJmVfJXcYtHX12y-4t2pYBW_M3Y3DB1rJhLOoMMxpDgzg66qJyO6YIJXfenOK5Or3THTMy_iJbC3rC43228r2QYSOOLYzrKkKKO2y1WVP9mbE_0ZqUCRstXPXkUbWWRNzYI1BiBqWM0QGrIoutS4ImzwdSqUV56eFaw==", {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Accept": "application/json",
-                            },
-                        });
-                        
-                        if (response.ok) {
-                            const data = await response.json();
-                            simliSession = data;
-                            console.log('Simli AI session initialized:', data.roomUrl);
-                        }
-                    } catch (error) {
-                        console.error('Failed to initialize Simli AI:', error);
-                    }
-                }
                 
                 // Focus on input
                 setTimeout(() => {
@@ -97,7 +75,7 @@
             // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            // Simulate AI response (replace with actual Simli AI integration)
+            // Simulate AI response
             setTimeout(() => {
                 typingIndicator.style.display = 'none';
                 
