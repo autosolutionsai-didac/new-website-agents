@@ -791,19 +791,28 @@
         }
         // --- End chatbot via n8n Webhook ---
 
-        // Toggle chat interface visibility
+        // Ensure chat interface is hidden on load
+        window.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chatContainer');
+            if (chatContainer) chatContainer.style.display = 'none';
+            const chatBubble = document.getElementById('chatBubble');
+            if (chatBubble) chatBubble.style.display = 'flex';
+        });
+
         function toggleChat() {
             let chatContainer = document.getElementById('chatContainer');
+            let chatBubble = document.getElementById('chatBubble');
             if (!chatContainer) {
-                // If chat container doesn't exist, create and append it
+                // Create chat container if missing
                 chatContainer = document.createElement('div');
                 chatContainer.id = 'chatContainer';
                 chatContainer.className = 'chat-container fixed bottom-24 right-8 z-50 bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-2xl p-4 w-80 max-w-full flex flex-col';
                 chatContainer.innerHTML = `
                     <div class="flex items-center mb-2">
                         <img src='Web Images/Daniel.png' alt='Daniel' class='h-8 w-8 rounded-full mr-2'>
-                        <span class='font-bold text-[var(--color-primary)]'>Talk to Daniel</span>
-                        <button onclick="toggleChat()" class="ml-auto text-gray-400 hover:text-white text-xl font-bold">&times;</button>
+                        <span class='font-bold text-[var(--color-primary)]'>Daniel</span>
+                        <span class='ml-2 text-xs text-green-400 font-semibold'>AI Assistant • Online</span>
+                        <button onclick="closeChat()" class="ml-auto text-gray-400 hover:text-white text-xl font-bold">&times;</button>
                     </div>
                     <div id="chatMessages" class="flex-1 overflow-y-auto mb-2 bg-black/30 rounded p-2" style="max-height: 300px;"></div>
                     <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
@@ -813,14 +822,14 @@
                     </div>
                 `;
                 document.body.appendChild(chatContainer);
-                setTimeout(() => chatContainer.classList.add('visible'), 10);
-            } else {
-                if (chatContainer.style.display === 'none' || getComputedStyle(chatContainer).display === 'none') {
-                    chatContainer.style.display = 'flex';
-                    setTimeout(() => chatContainer.classList.add('visible'), 10);
-                } else {
-                    chatContainer.classList.remove('visible');
-                    setTimeout(() => chatContainer.style.display = 'none', 200);
-                }
             }
+            chatContainer.style.display = 'flex';
+            if (chatBubble) chatBubble.style.display = 'none';
+        }
+
+        function closeChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatBubble = document.getElementById('chatBubble');
+            if (chatContainer) chatContainer.style.display = 'none';
+            if (chatBubble) chatBubble.style.display = 'flex';
         }
