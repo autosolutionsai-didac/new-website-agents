@@ -780,7 +780,7 @@
                     <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
                     <div class="flex">
                         <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeypress="if(event.key==='Enter'){event.preventDefault();sendMessage();}">
-                        <button onclick="sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
+                        <button onclick="testSend()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Test</button>
                     </div>
                 `;
                 document.body.appendChild(chatContainer);
@@ -790,22 +790,35 @@
             if (chatBubble) chatBubble.style.display = 'none';
         }
 
-        // Make sure sendMessage is globally accessible
-        window.sendMessage = function() {
-            console.log('sendMessage called');
+        // Make sendMessage a regular function that's accessible globally
+        function sendMessage() {
+            console.log('sendMessage function called');
             const input = document.getElementById('chatInput');
             if (!input) {
-                console.error('chatInput not found');
+                console.error('chatInput element not found');
                 return;
             }
+            
             const message = input.value.trim();
-            console.log('Message:', message);
-            if (!message) return;
+            console.log('Message to send:', message);
+            
+            if (!message) {
+                console.log('Empty message, not sending');
+                return;
+            }
+            
+            // Add user message to chat
             addChatMessage('user', message);
             input.value = '';
+            
+            // Show typing indicator
             showTypingIndicator(true);
+            
+            // Send to webhook
+            console.log('Sending to webhook...');
             sendToWebhook(message, sessionId)
                 .then(botReply => {
+                    console.log('Bot reply received:', botReply);
                     addChatMessage('bot', botReply);
                     showTypingIndicator(false);
                 })
@@ -814,15 +827,20 @@
                     addChatMessage('bot', 'Sorry, there was a problem connecting to Daniel. Please try again later.');
                     showTypingIndicator(false);
                 });
-        };
+        }
 
-        // Make sure closeChat is globally accessible
-        window.closeChat = function() {
+        function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             const chatBubble = document.getElementById('chatBubble');
             if (chatContainer) chatContainer.style.display = 'none';
             if (chatBubble) chatBubble.style.display = 'flex';
-        };
+        }
+
+        // Test function to verify button works
+        function testSend() {
+            console.log('Test send button clicked');
+            alert('Button is working!');
+        }
 
         function showTypingIndicator(show) {
             const indicator = document.getElementById('typingIndicator');
