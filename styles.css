@@ -233,7 +233,7 @@
         }
 
         /* Chat Interface Styles */
-        .chat-interface {
+        #chatContainer {
             position: fixed;
             bottom: 100px;
             right: 2rem;
@@ -244,7 +244,7 @@
             border: 2px solid var(--color-primary);
             border-radius: 1.5rem;
             box-shadow: 0 8px 48px 0 #00FF8855, 0 2px 16px #000;
-            display: flex;
+            display: none; /* Hidden by default */
             flex-direction: column;
             padding: 0;
             animation: fadeInUp 0.3s cubic-bezier(.4,2,.6,1) 1;
