@@ -697,7 +697,7 @@
             submitButton.disabled = true;
 
             // Send to n8n webhook
-            fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/9d52093d-e1e3-4d4d-9ae3-b72c10cbe0e0', {
+            fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/1dea1ecd-3a21-4750-b932-2b911b3a0921', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
