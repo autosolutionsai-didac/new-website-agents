@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: #00FF88;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #00FFB3;
+        }
+        .log {
+            background: #222;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Interface Test</h1>
+    
+    <div class="test-section">
+        <h2>Function Tests</h2>
+        <button class="test-button" onclick="testToggleChat()">Test toggleChat()</button>
+        <button class="test-button" onclick="testSendMessage()">Test sendMessage()</button>
+        <button class="test-button" onclick="testCloseChat()">Test closeChat()</button>
+        <button class="test-button" onclick="checkElements()">Check Elements</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${time}] ${message}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function testToggleChat() {
+            try {
+                if (typeof window.toggleChat === 'function') {
+                    log('✓ toggleChat function exists');
+                    window.toggleChat();
+                    log('✓ toggleChat() executed successfully');
+                } else {
+                    log('✗ toggleChat function not found');
+                }
+            } catch (error) {
+                log('✗ Error in toggleChat: ' + error.message);
+            }
+        }
+
+        function testSendMessage() {
+            try {
+                if (typeof window.sendMessage === 'function') {
+                    log('✓ sendMessage function exists');
+                    const input = document.getElementById('chatInput');
+                    if (input) {
+                        input.value = 'Test message';
+                        log('✓ Set test message in input');
+                        window.sendMessage();
+                        log('✓ sendMessage() executed successfully');
+                    } else {
+                        log('✗ chatInput element not found');
+                    }
+                } else {
+                    log('✗ sendMessage function not found');
+                }
+            } catch (error) {
+                log('✗ Error in sendMessage: ' + error.message);
+            }
+        }
+
+        function testCloseChat() {
+            try {
+                if (typeof window.closeChat === 'function') {
+                    log('✓ closeChat function exists');
+                    window.closeChat();
+                    log('✓ closeChat() executed successfully');
+                } else {
+                    log('✗ closeChat function not found');
+                }
+            } catch (error) {
+                log('✗ Error in closeChat: ' + error.message);
+            }
+        }
+
+        function checkElements() {
+            const elements = [
+                'chatInterface',
+                'chatBubble',
+                'chatMessages',
+                'chatInput',
+                'typingIndicator'
+            ];
+
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    log(`✓ Element #${id} exists`);
+                    if (id === 'chatInterface') {
+                        log(`  - Display: ${getComputedStyle(el).display}`);
+                        log(`  - Has 'active' class: ${el.classList.contains('active')}`);
+                    }
+                } else {
+                    log(`✗ Element #${id} not found`);
+                }
+            });
+        }
+
+        // Check on load
+        window.addEventListener('DOMContentLoaded', () => {
+            log('Page loaded');
+            checkElements();
+        });
+    </script>
+</body>
+</html>

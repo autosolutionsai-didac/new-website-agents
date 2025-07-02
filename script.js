@@ -771,106 +771,109 @@
             if (chatBubble) chatBubble.style.display = 'flex';
         });
 
-        function toggleChat() {
-            let chatContainer = document.getElementById('chatContainer');
-            let chatBubble = document.getElementById('chatBubble');
+        window.toggleChat = function() {
+            const chatInterface = document.getElementById('chatInterface');
+            const chatBubble = document.getElementById('chatBubble');
             
-            if (!chatContainer) {
-                // Create simple, working chat container
-                chatContainer = document.createElement('div');
-                chatContainer.id = 'chatContainer';
-                chatContainer.style.cssText = `
-                    position: fixed;
-                    bottom: 2rem;
-                    right: 2rem;
-                    width: 350px;
-                    height: 450px;
-                    background: rgba(17, 17, 17, 0.95);
-                    border: 2px solid #00FF88;
-                    border-radius: 15px;
-                    display: flex;
-                    flex-direction: column;
-                    z-index: 1000;
-                    backdrop-filter: blur(10px);
-                `;
-                
-                chatContainer.innerHTML = `
-                    <div style="padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center;">
-                            <img src="Web Images/Daniel.png" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid #00FF88;">
-                            <div>
-                                <div style="color: #00FF88; font-weight: bold;">Daniel</div>
-                                <div style="color: #00FFB3; font-size: 12px;">AI Assistant • Online</div>
-                            </div>
-                        </div>
-                        <button onclick="closeChat()" style="background: #333; border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 18px;">&times;</button>
-                    </div>
+            if (chatInterface) {
+                // Toggle the HTML chat interface
+                if (chatInterface.classList.contains('active')) {
+                    chatInterface.classList.remove('active');
+                    if (chatBubble) chatBubble.style.display = 'flex';
+                } else {
+                    chatInterface.classList.add('active');
+                    if (chatBubble) chatBubble.style.display = 'none';
                     
-                    <div id="chatMessages" style="flex: 1; padding: 15px; overflow-y: auto; background: rgba(0,0,0,0.3);">
-                        <div style="display: flex; margin-bottom: 10px;">
-                            <img src="Web Images/Daniel.png" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 8px;">
-                            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; color: white;">
-                                Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="typingIndicator" style="padding: 0 15px; color: #888; font-size: 12px; display: none;">Daniel is typing...</div>
-                    
-                    <div style="padding: 15px; display: flex; gap: 10px;">
-                        <input id="chatInput" type="text" placeholder="Type your message..." style="flex: 1; padding: 12px; border: 1px solid #333; border-radius: 25px; background: rgba(0,0,0,0.5); color: white; outline: none;">
-                        <button onclick="sendChatMessage()" style="background: #00FF88; color: black; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold;">Send</button>
-                    </div>
-                `;
-                
-                document.body.appendChild(chatContainer);
+                    // Focus on input when chat opens
+                    const chatInput = document.getElementById('chatInput');
+                    if (chatInput) {
+                        setTimeout(() => chatInput.focus(), 100);
+                    }
+                }
             }
-            
-            chatContainer.style.display = 'flex';
-            if (chatBubble) chatBubble.style.display = 'none';
         }
 
-        function closeChat() {
-            const chatContainer = document.getElementById('chatContainer');
+        window.closeChat = function() {
+            const chatInterface = document.getElementById('chatInterface');
             const chatBubble = document.getElementById('chatBubble');
-            if (chatContainer) chatContainer.style.display = 'none';
+            if (chatInterface) chatInterface.classList.remove('active');
             if (chatBubble) chatBubble.style.display = 'flex';
         }
 
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Add user message
-            addMessage('user', message, true);
-            input.value = '';
-            
-            // Show typing indicator
-            document.getElementById('typingIndicator').style.display = 'block';
-            
-            // Send to webhook
-            fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/4fccff12-dcf2-4b31-8b80-0f87611e521f', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: message, sessionId: sessionId })
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('typingIndicator').style.display = 'none';
-                addMessage('bot', data.reply || data.response || data.message || 'Thanks for your message!');
-            })
-            .catch(error => {
-                document.getElementById('typingIndicator').style.display = 'none';
-                addMessage('bot', 'Sorry, there was a connection error. Please try again.');
-            });
-        }
+        // Remove duplicate function since we're using sendMessage for everything
 
         // Handle Enter key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' && document.getElementById('chatInput') === document.activeElement) {
                 event.preventDefault();
-                sendChatMessage();
+                sendMessage();
             }
         });
+
+        // Function for HTML chat interface send button
+        window.sendMessage = function() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to HTML chat interface
+            addHTMLMessage('user', message);
+            input.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) typingIndicator.style.display = 'block';
+            
+                         // Send to webhook
+             fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/1dea1ecd-3a21-4750-b932-2b911b3a0921', {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ message: message, sessionId: sessionId })
+             })
+            .then(res => res.json())
+            .then(data => {
+                // Hide typing indicator
+                if (typingIndicator) typingIndicator.style.display = 'none';
+                // Add bot response
+                const reply = data.reply || data.response || data.message || 'Thanks for your message! I\'ll help you learn more about My Virtual Employee.';
+                addHTMLMessage('bot', reply);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (typingIndicator) typingIndicator.style.display = 'none';
+                addHTMLMessage('bot', 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment.');
+            });
+        };
+
+        // Function to add messages to HTML chat interface
+        function addHTMLMessage(sender, content) {
+            const chatMessages = document.getElementById('chatMessages');
+            if (!chatMessages) return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="chat-message-content">${content}</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="chat-message-avatar">
+                        <img src="Web Images/Daniel.png" alt="Daniel">
+                    </div>
+                    <div class="chat-message-content">${content}</div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        window.handleKeyPress = function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        };
