@@ -201,70 +201,56 @@
         /* Chat Bubble Styles */
         .chat-bubble {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chat-bubble-content {
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            width: 72px;
+            height: 72px;
+            background: #111;
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 24px 4px var(--color-primary), 0 2px 16px #000;
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(17, 17, 17, 0.95) 100%);
-            border: 2px solid var(--color-primary);
-            border-radius: 25px;
-            padding: 12px 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            justify-content: center;
+            cursor: pointer;
+            transition: box-shadow 0.3s, border 0.3s, background 0.3s;
         }
 
-        .chat-bubble:hover .chat-bubble-content {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
-            border-color: var(--color-accent);
-        }
-
-        .chat-bubble-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--color-primary);
-            overflow: hidden;
-            background: var(--color-card-bg);
+        .chat-bubble:hover {
+            box-shadow: 0 0 40px 8px var(--color-primary), 0 4px 32px #000;
+            background: #181818;
         }
 
         .chat-bubble-avatar img {
-            width: 100%;
-            height: 100%;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--color-primary);
+            background: #222;
             object-fit: cover;
         }
 
-        .chat-bubble-text {
-            color: var(--color-primary);
-            font-weight: 600;
-            font-size: 14px;
-            white-space: nowrap;
+        .chat-bubble-content {
+            display: none;
         }
 
         /* Chat Interface Styles */
         .chat-interface {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 380px;
-            height: 500px;
-            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(17, 17, 17, 0.98) 100%);
+            bottom: 100px;
+            right: 2rem;
+            z-index: 100;
+            width: 370px;
+            max-width: 95vw;
+            background: #181818;
             border: 2px solid var(--color-primary);
-            border-radius: 20px;
-            z-index: 999;
-            display: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 48px 0 #00FF8855, 0 2px 16px #000;
+            display: flex;
             flex-direction: column;
-            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
-            backdrop-filter: blur(15px);
-            overflow: hidden;
+            padding: 0;
+            animation: fadeInUp 0.3s cubic-bezier(.4,2,.6,1) 1;
         }
 
         .chat-interface.active {
@@ -506,4 +492,34 @@
                 bottom: 20px;
                 right: 20px;
             }
+        }
+
+        @media (max-width: 600px) {
+            .chat-bubble {
+                right: 1rem;
+                bottom: 1rem;
+                width: 56px;
+                height: 56px;
+            }
+            #chatContainer {
+                right: 0.5rem;
+                width: 98vw;
+                min-width: unset;
+                border-radius: 1rem;
+                padding: 0;
+            }
+            #chatContainer .flex.items-center {
+                padding: 0.7rem 1rem 0.3rem 1rem;
+            }
+            #chatContainer #chatMessages {
+                padding: 0.7rem 1rem 0.3rem 1rem;
+            }
+            #chatContainer .flex {
+                padding: 0 1rem 1rem 1rem;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
