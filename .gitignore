@@ -34,3 +34,4 @@ update_coming_soon.sh
 # Test files
 test.txt
 *.test.*
+.env
