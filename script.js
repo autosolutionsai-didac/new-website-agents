@@ -138,17 +138,43 @@
                 orbitSpeed: 0.021
             },
             { 
-                name: 'New Agent', 
-                role: 'Coming Soon',
+                name: 'Oscar', 
+                role: 'Business Relationships Manager',
                 x: 0.12, 
                 y: 0.35, 
                 color: '#00FFB3',
                 pulseColor: '#00FFDD',
-                description: 'Custom-built for your needs',
-                icon: '🚀',
+                description: 'Builds partnerships & manages key accounts',
+                icon: '🤝',
                 rotation: 300,
                 orbitRadius: 200,
                 orbitSpeed: 0.02
+            },
+            { 
+                name: 'Sophie', 
+                role: 'Social Media Manager',
+                x: 0.2, 
+                y: 0.15, 
+                color: '#00FF88',
+                pulseColor: '#00FFB3',
+                description: 'Plans posts & automates engagement',
+                icon: '📱',
+                rotation: 330,
+                orbitRadius: 200,
+                orbitSpeed: 0.017
+            },
+            { 
+                name: 'Liam', 
+                role: 'Product Designer',
+                x: 0.8, 
+                y: 0.15, 
+                color: '#00FFB3',
+                pulseColor: '#00FFDD',
+                description: 'Generates concepts & designs assets',
+                icon: '🎨',
+                rotation: 30,
+                orbitRadius: 200,
+                orbitSpeed: 0.023
             }
         ];
         
@@ -203,10 +229,15 @@
             { from: 2, to: 3, type: 'analysis' }, // Maya to Ian
             { from: 1, to: 3, type: 'sync' }, // Alex to Ian
             { from: 0, to: 4, type: 'sync' }, // James to Tiffany
-            { from: 5, to: 0, type: 'data' }, // New Agent to James
-            { from: 5, to: 3, type: 'collaboration' }, // New Agent to Ian
-            { from: 2, to: 5, type: 'sync' }, // Maya to New Agent
-            { from: 4, to: 5, type: 'feedback' }, // Tiffany to New Agent
+            { from: 5, to: 0, type: 'data' }, // Oscar to James
+            { from: 5, to: 2, type: 'collaboration' }, // Oscar to Maya
+            { from: 6, to: 1, type: 'collaboration' }, // Sophie to Alex
+            { from: 6, to: 2, type: 'sync' }, // Sophie to Maya
+            { from: 7, to: 0, type: 'sync' }, // Liam to James
+            { from: 7, to: 3, type: 'data' }, // Liam to Ian
+            { from: 7, to: 4, type: 'collaboration' }, // Liam to Tiffany
+            { from: 1, to: 6, type: 'analysis' }, // Alex to Sophie
+            { from: 3, to: 7, type: 'feedback' }, // Ian to Liam
         ];
         
         interAgentConnections.forEach(conn => {
@@ -600,7 +631,12 @@
                     'Central Hub → All: Task distributed',
                     'Alex → Maya: Lead transferred',
                     'Tiffany → James: Feedback received',
-                    'New Agent → Ian: Learning from data'
+                    'Oscar → Maya: Partnership established',
+                    'Sophie → Alex: Social posts scheduled',
+                    'Liam → Ian: Design concepts delivered',
+                    'Sophie → Oscar: Brand guidelines shared',
+                    'Liam → Tiffany: Product mockups created',
+                    'Oscar → Sophie: Account insights provided'
                 ];
                 
                 const newActivity = document.createElement('div');
@@ -619,3 +655,212 @@
         // Update stats and feed periodically
         setInterval(updateNetworkStats, 1000);
         setInterval(updateActivityFeed, 2000);
+
+        // Chat functionality
+        let isChatOpen = false;
+
+        function toggleChat() {
+            const chatInterface = document.getElementById('chatInterface');
+            const chatBubble = document.getElementById('chatBubble');
+            
+            isChatOpen = !isChatOpen;
+            
+            if (isChatOpen) {
+                chatInterface.classList.add('active');
+                chatBubble.style.display = 'none';
+                // Focus on input when chat opens
+                setTimeout(() => {
+                    document.getElementById('chatInput').focus();
+                }, 300);
+            } else {
+                chatInterface.classList.remove('active');
+                chatBubble.style.display = 'block';
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate bot response after a delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                const botResponse = generateBotResponse(message);
+                addMessage(botResponse, 'bot');
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            
+            if (sender === 'bot') {
+                messageDiv.innerHTML = `
+                    <div class="chat-message-avatar">
+                        <img src="Web Images/Daniel.png" alt="Daniel">
+                    </div>
+                    <div class="chat-message-content">${content}</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="chat-message-content">${content}</div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'block';
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function generateBotResponse(userMessage) {
+            const responses = {
+                greetings: [
+                    "Hello! I'm excited to help you discover how My Virtual Employee can transform your business.",
+                    "Hi there! Ready to learn about our AI workforce?",
+                    "Welcome! I'm here to answer any questions about our virtual employees."
+                ],
+                pricing: [
+                    "Our pricing starts at $1,999/month for the Growth plan with 3 agents. We also have Scale ($2,499/month, 4 agents) and Premium ($2,999/month, 5 agents) plans. All include a build & implementation fee with a 12-month minimum contract.",
+                    "We offer three tiers: Growth, Scale, and Premium. Each plan includes different numbers of agents and levels of customization. Would you like me to explain the differences in detail?",
+                    "Our pricing is designed to provide incredible value - one virtual employee replaces the work of 15+ full-time employees! Which plan interests you most?"
+                ],
+                agents: [
+                    "We have 8 specialized AI agents: James (Researcher), Alex (Cold Caller), Maya (Inbound Sales), Ian (Data Engineer), Tiffany (Customer Service), Oscar (Business Relationships Manager), Sophie (Social Media Manager), and Liam (Product Designer). Each one is expertly designed for their specific role.",
+                    "Our virtual employees work 24/7 without breaks. James finds and validates prospects, Alex qualifies leads, Maya handles incoming sales, Ian processes data, Tiffany provides customer support, Oscar builds partnerships, Sophie manages social media, and Liam designs products.",
+                    "Each agent integrates seamlessly with your existing systems and can be customized for your industry. They're like having a full team that never sleeps!"
+                ],
+                features: [
+                    "Our virtual employees integrate with popular CRMs like Salesforce and HubSpot, communication tools like Slack and Teams, and can work with custom APIs. They handle everything from lead generation to customer support.",
+                    "Key features include 24/7 operation, seamless integrations, industry customization, and scalability. They provide superhuman productivity without human limitations.",
+                    "The AI agents can handle complex workflows, learn from interactions, and provide detailed reporting on their activities."
+                ],
+                implementation: [
+                    "Implementation typically takes 4-12 weeks depending on customization level. We handle all the technical setup and integration with your existing systems.",
+                    "After our initial consultation and proposal approval, we'll deploy your agents. The timeline depends on how much customization your industry requires.",
+                    "We provide full onboarding support and ensure smooth integration with your current workflows before going live."
+                ],
+                default: [
+                    "That's a great question! Our virtual employees are designed to revolutionize how businesses operate. Is there something specific about our AI workforce you'd like to know more about?",
+                    "I'd be happy to help with that! You can learn more about our pricing, agents, features, or implementation process. What interests you most?",
+                    "Excellent question! Our AI agents are transforming businesses across industries. Would you like to know about specific agents, pricing, or how they integrate with existing systems?"
+                ]
+            };
+
+            const message = userMessage.toLowerCase();
+            
+            if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+                return getRandomResponse(responses.greetings);
+            } else if (message.includes('price') || message.includes('cost') || message.includes('plan') || message.includes('pricing')) {
+                return getRandomResponse(responses.pricing);
+            } else if (message.includes('agent') || message.includes('employee') || message.includes('james') || message.includes('alex') || message.includes('maya') || message.includes('ian') || message.includes('tiffany') || message.includes('oscar') || message.includes('sophie') || message.includes('liam') || message.includes('business relationships') || message.includes('social media') || message.includes('product designer') || message.includes('partnerships')) {
+                return getRandomResponse(responses.agents);
+            } else if (message.includes('feature') || message.includes('integration') || message.includes('crm') || message.includes('slack')) {
+                return getRandomResponse(responses.features);
+            } else if (message.includes('implement') || message.includes('deploy') || message.includes('setup') || message.includes('start')) {
+                return getRandomResponse(responses.implementation);
+            } else {
+                return getRandomResponse(responses.default);
+            }
+        }
+
+        function getRandomResponse(responseArray) {
+            return responseArray[Math.floor(Math.random() * responseArray.length)];
+        }
+
+        // Contact form functionality
+        function scrollToContactForm() {
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                
+                // Add highlight effect
+                contactForm.style.boxShadow = '0 0 50px rgba(0, 255, 136, 0.5)';
+                setTimeout(() => {
+                    contactForm.style.boxShadow = '';
+                }, 2000);
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Basic validation
+            if (!data.fullName || !data.email) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4';
+                successMessage.innerHTML = `
+                    <p class="font-semibold">Thank you for your interest!</p>
+                    <p>We'll be in touch within 24 hours to schedule your free consultation.</p>
+                `;
+                
+                form.parentNode.insertBefore(successMessage, form);
+                form.reset();
+                
+                submitButton.textContent = 'Message Sent!';
+                submitButton.style.background = 'linear-gradient(to right, #10B981, #059669)';
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    submitButton.style.background = '';
+                    if (successMessage.parentNode) {
+                        successMessage.parentNode.removeChild(successMessage);
+                    }
+                }, 3000);
+                
+            }, 2000);
+        }

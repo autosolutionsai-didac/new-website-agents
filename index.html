@@ -34,7 +34,7 @@
                     <a href="#agents" class="text-gray-400 hover:text-white transition">Agents</a>
                     <a href="#pricing" class="text-gray-400 hover:text-white transition">Pricing</a>
                     <a href="#faq" class="text-gray-400 hover:text-white transition">FAQ</a>
-                    <a href="#contact" class="bg-[var(--color-primary)] text-black font-semibold px-6 py-2 rounded-full hover:shadow-[0_0_30px_var(--color-primary)] transition-all duration-300">Get Started</a>
+                    <a href="#contact-form" onclick="scrollToContactForm()" class="bg-[var(--color-primary)] text-black font-semibold px-6 py-2 rounded-full hover:shadow-[0_0_30px_var(--color-primary)] transition-all duration-300">Get Started</a>
                 </div>
                 <button class="md:hidden" onclick="toggleMobileMenu()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -382,185 +382,106 @@
                 <p class="text-xl text-gray-400">Five specialized agents ready to transform your business</p>
             </div>
             
-            <div class="overflow-x-auto scroll-container pb-4 md:overflow-visible">
-                <div class="flex md:grid md:grid-cols-5 gap-6 md:gap-4 w-max md:w-full">
-                    <!-- James - Researcher -->
-                    <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in">
-                        <img src="Web Images/James.png" alt="Portrait of James" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                        <h3 class="text-xl font-bold mb-1">James</h3>
-                        <p class="text-[var(--color-primary)] mb-4">Researcher</p>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Finds prospect email & phone</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Validates data with public/private sources</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Delivers results to CRM</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Alex - Cold Caller / Setter -->
-                    <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in">
-                        <img src="Web Images/Alex.png" alt="Portrait of Alex" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                        <h3 class="text-xl font-bold mb-1">Alex</h3>
-                        <p class="text-[var(--color-primary)] mb-4">Cold Caller / Setter</p>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Calls & emails leads</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Qualifies and books meetings</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Syncs with CRM/email</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Maya - Inbound Sales -->
-                    <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in">
-                        <img src="Web Images/Maya.png" alt="Portrait of Maya" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                        <h3 class="text-xl font-bold mb-1">Maya</h3>
-                        <p class="text-[var(--color-primary)] mb-4">Inbound Sales</p>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Handles incoming calls & emails</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Lead qualification + smart follow-ups</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Updates CRM & books meetings</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Ian - Data Engineer -->
-                    <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in">
-                        <img src="Web Images/Ian.png" alt="Portrait of Ian" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                        <h3 class="text-xl font-bold mb-1">Ian</h3>
-                        <p class="text-[var(--color-primary)] mb-4">Data Engineer</p>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Parses documents & builds databases</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Generates summaries/dashboards</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Monitors sources for new data</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Tiffany - Customer Service -->
-                    <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in">
-                        <img src="Web Images/Tiffany.png" alt="Portrait of Tiffany" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                        <h3 class="text-xl font-bold mb-1">Tiffany</h3>
-                        <p class="text-[var(--color-primary)] mb-4">Customer Service</p>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Live call & email support (pricing, policies)</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Scheduling / rescheduling</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-[var(--color-primary)] mr-2">•</span>
-                                <span>Escalates complex issues</span>
-                            </li>
-                        </ul>
-                    </div>
+            <!-- Agent Cards Grid (8 agents) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+                <!-- James - Researcher -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in flex flex-col">
+                    <img src="Web Images/James.png" alt="Portrait of James" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-1">James</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Researcher</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Finds prospect email & phone</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Validates data with public/private sources</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Delivers results to CRM</span></li>
+                    </ul>
+                </div>
+                <!-- Alex - Cold Caller -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in flex flex-col">
+                    <img src="Web Images/Alex.png" alt="Portrait of Alex" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-1">Alex</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Cold Caller / Setter</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Calls & emails leads</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Qualifies and books meetings</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Syncs with CRM/email</span></li>
+                    </ul>
+                </div>
+                <!-- Maya - Inbound Sales -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in flex flex-col">
+                    <img src="Web Images/Maya.png" alt="Portrait of Maya" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-1">Maya</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Inbound Sales</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Handles incoming calls & emails</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Lead qualification + smart follow-ups</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Updates CRM & books meetings</span></li>
+                    </ul>
+                </div>
+                <!-- Ian - Data Engineer -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in flex flex-col">
+                    <img src="Web Images/Ian.png" alt="Portrait of Ian" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-1">Ian</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Data Engineer</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Parses documents & builds databases</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Generates summaries/dashboards</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Monitors sources for new data</span></li>
+                    </ul>
+                </div>
+                <!-- Tiffany - Customer Service -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in flex flex-col">
+                    <img src="Web Images/Tiffany.png" alt="Portrait of Tiffany" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-1">Tiffany</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Customer Service</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Live call & email support (pricing, policies)</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Scheduling / rescheduling</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Escalates complex issues</span></li>
+                    </ul>
+                </div>
+                <!-- Oscar - Business Relationships Manager -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 fade-in flex flex-col opacity-60 relative cursor-not-allowed">
+                    <span class="absolute top-4 right-4 bg-gray-700 text-gray-300 text-xs font-bold px-3 py-1 rounded-full z-10">Coming Soon</span>
+                    <img src="Web Images/Oscar.png" alt="Portrait of Oscar" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800 grayscale">
+                    <h3 class="text-xl font-bold mb-1">Oscar</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Business Relationships Manager</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Builds and nurtures partnerships</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Manages key accounts and stakeholder engagement</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Coordinates across sales, marketing & product teams</span></li>
+                    </ul>
+                </div>
+                <!-- Sophie - Social Media Manager -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 fade-in flex flex-col opacity-60 relative cursor-not-allowed">
+                    <span class="absolute top-4 right-4 bg-gray-700 text-gray-300 text-xs font-bold px-3 py-1 rounded-full z-10">Coming Soon</span>
+                    <img src="Web Images/Sophie.png" alt="Portrait of Sophie" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800 grayscale">
+                    <h3 class="text-xl font-bold mb-1">Sophie</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Social Media Manager</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Plans and schedules posts across platforms</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Automates engagement with comments & messages</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Analyzes performance metrics and trends</span></li>
+                    </ul>
+                </div>
+                <!-- Liam - Product Designer -->
+                <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 fade-in flex flex-col opacity-60 relative cursor-not-allowed">
+                    <span class="absolute top-4 right-4 bg-gray-700 text-gray-300 text-xs font-bold px-3 py-1 rounded-full z-10">Coming Soon</span>
+                    <img src="Web Images/Liam.png" alt="Portrait of Liam" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800 grayscale">
+                    <h3 class="text-xl font-bold mb-1">Liam</h3>
+                    <p class="text-[var(--color-primary)] mb-4">Product Designer</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Generates product concepts & mockups</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Designs assets using AI-assisted tools</span></li>
+                        <li class="flex items-start"><span class="text-[var(--color-primary)] mr-2">•</span><span>Collaborates on product vision & user feedback</span></li>
+                    </ul>
                 </div>
             </div>
+            <!-- End Agent Cards Grid -->
             
-            <!-- Coming Soon Agents -->
+            <!-- Additional Agents -->
             <div class="mt-12">
                 <div class="text-center mb-8">
-                    <h3 class="text-2xl font-bold text-gray-400">More Agents Coming Soon</h3>
-                </div>
-                <div class="flex justify-center">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
-                        <!-- Coming Soon Agent 1 -->
-                        <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in opacity-60">
-                            <img src="Web Images/New Agent.png" alt="Coming Soon Agent" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                            <h3 class="text-xl font-bold mb-1">Coming Soon</h3>
-                            <p class="text-[var(--color-primary)] mb-4">New Role</p>
-                            <ul class="space-y-2 text-sm text-gray-500">
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Custom-built for your needs</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Advanced AI capabilities</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Request early access</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <!-- Coming Soon Agent 2 -->
-                        <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in opacity-60">
-                            <img src="Web Images/New Agent.png" alt="Coming Soon Agent" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                            <h3 class="text-xl font-bold mb-1">Coming Soon</h3>
-                            <p class="text-[var(--color-primary)] mb-4">New Role</p>
-                            <ul class="space-y-2 text-sm text-gray-500">
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Industry-specific expertise</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Seamless integration</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Join the waitlist</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <!-- Coming Soon Agent 3 -->
-                        <div class="flex-shrink-0 w-64 md:w-auto bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] hover:border-[var(--color-primary)] transition-all duration-300 fade-in opacity-60">
-                            <img src="Web Images/New Agent.png" alt="Coming Soon Agent" class="w-full aspect-square object-contain rounded-lg mb-4 bg-gray-900 border border-gray-800">
-                            <h3 class="text-xl font-bold mb-1">Coming Soon</h3>
-                            <p class="text-[var(--color-primary)] mb-4">New Role</p>
-                            <ul class="space-y-2 text-sm text-gray-500">
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Next-gen capabilities</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Enterprise-ready</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-gray-600 mr-2">•</span>
-                                    <span>Coming Q2 2025</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold">Additional Specialized Agents Coming Soon...</h3>
                 </div>
             </div>
         </div>
@@ -612,7 +533,7 @@
                         </li>
                     </ul>
                     <div class="mt-auto pt-6">
-                        <button class="w-full py-3 border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[0_0_30px_var(--color-primary)] transition-all duration-300">
+                        <button onclick="scrollToContactForm()" class="w-full py-3 border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[0_0_30px_var(--color-primary)] transition-all duration-300">
                             Get Started
                         </button>
                     </div>
@@ -659,7 +580,7 @@
                         </li>
                     </ul>
                     <div class="mt-auto pt-6">
-                        <button class="w-full py-3 bg-[var(--color-primary)] text-black rounded-full font-bold hover:shadow-[0_0_40px_var(--color-primary)] transition-all duration-300">
+                        <button onclick="scrollToContactForm()" class="w-full py-3 bg-[var(--color-primary)] text-black rounded-full font-bold hover:shadow-[0_0_40px_var(--color-primary)] transition-all duration-300">
                             Get Started
                         </button>
                     </div>
@@ -703,9 +624,36 @@
                         </li>
                     </ul>
                     <div class="mt-auto pt-6">
-                        <button class="w-full py-3 border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[0_0_30px_var(--color-primary)] transition-all duration-300">
+                        <button onclick="scrollToContactForm()" class="w-full py-3 border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[0_0_30px_var(--color-primary)] transition-all duration-300">
                             Get Started
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 90-Day Guarantee Section -->
+    <section class="py-16 bg-gradient-to-r from-[var(--color-dark-bg)] via-black to-[var(--color-dark-bg)]">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <div class="glass-morphism rounded-2xl p-8 border-2 border-[var(--color-primary)]">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+                        100% Risk-Free Guarantee
+                    </h2>
+                    <p class="text-xl md:text-2xl text-gray-300 leading-relaxed mb-6">
+                        We are so confident that you're going to love our AI employees, that we offer a 
+                        <span class="text-[var(--color-primary)] font-bold">90-day free cancellation</span> 
+                        with no questions asked.
+                    </p>
+                    <p class="text-lg text-gray-400">
+                        You can be 100% sure they deliver what's promised. Try our virtual workforce risk-free 
+                        and see the transformation in your business operations.
+                    </p>
+                    <div class="mt-8 flex justify-center">
+                        <div class="bg-[var(--color-primary)] text-black px-6 py-3 rounded-full font-bold text-lg">
+                            ✓ 90-Day Money-Back Guarantee
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1096,13 +1044,15 @@
 
     <!-- FAQ Section -->
     <section id="faq" class="py-20 bg-[var(--color-dark-bg)]">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 fade-in">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
                 <p class="text-xl text-gray-400">Everything you need to know</p>
             </div>
             
-            <div class="space-y-4 fade-in">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- FAQ Column -->
+                <div class="space-y-4 fade-in">
                 <!-- FAQ Item 1 -->
                 <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-lg shadow-sm hover:border-[var(--color-primary)] transition-all duration-300">
                     <button onclick="toggleFAQ(0)" class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none">
@@ -1180,6 +1130,119 @@
                         <p class="text-gray-400">All plans include onboarding support and ongoing assistance. Growth plan includes standard business hours support, Scale plan includes 24/7 priority support, and Premium plan includes a dedicated account manager and assigned engineer for immediate assistance.</p>
                     </div>
                 </div>
+                </div>
+                
+                <!-- Contact Form Column -->
+                <div class="fade-in">
+                    <div class="bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl p-8 shadow-lg hover:border-[var(--color-primary)] transition-all duration-300" id="contact-form">
+                        <h3 class="text-2xl font-bold mb-6 gradient-text text-center">Get Started Today</h3>
+                        <p class="text-gray-400 mb-6 text-center">Ready to transform your business? Let's schedule your free consultation.</p>
+                        
+                        <form class="space-y-6" onsubmit="handleFormSubmit(event)">
+                            <div>
+                                <label for="fullName" class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                                <input 
+                                    type="text" 
+                                    id="fullName" 
+                                    name="fullName" 
+                                    required
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300"
+                                    placeholder="Enter your full name"
+                                >
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address *</label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    required
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300"
+                                    placeholder="Enter your email address"
+                                >
+                            </div>
+                            
+                            <div>
+                                <label for="company" class="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
+                                <input 
+                                    type="text" 
+                                    id="company" 
+                                    name="company"
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300"
+                                    placeholder="Your company name"
+                                >
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                                <input 
+                                    type="tel" 
+                                    id="phone" 
+                                    name="phone"
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300"
+                                    placeholder="Your phone number"
+                                >
+                            </div>
+                            
+                            <div>
+                                <label for="employees" class="block text-sm font-medium text-gray-300 mb-2">Company Size</label>
+                                <select 
+                                    id="employees" 
+                                    name="employees"
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300"
+                                >
+                                    <option value="">Select company size</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-1000">201-1000 employees</option>
+                                    <option value="1000+">1000+ employees</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="interest" class="block text-sm font-medium text-gray-300 mb-2">Primary Interest</label>
+                                <select 
+                                    id="interest" 
+                                    name="interest"
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300"
+                                >
+                                    <option value="">What interests you most?</option>
+                                    <option value="lead-generation">Lead Generation & Research</option>
+                                    <option value="sales-automation">Sales Automation</option>
+                                    <option value="customer-service">Customer Service</option>
+                                    <option value="data-processing">Data Processing & Analytics</option>
+                                    <option value="content-marketing">Content & Marketing</option>
+                                    <option value="project-management">Project Management</option>
+                                    <option value="full-workforce">Complete AI Workforce</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Additional Information</label>
+                                <textarea 
+                                    id="message" 
+                                    name="message" 
+                                    rows="4"
+                                    class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none transition-all duration-300 resize-none"
+                                    placeholder="Tell us about your business needs and goals..."
+                                ></textarea>
+                            </div>
+                            
+                            <button 
+                                type="submit" 
+                                class="w-full py-4 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] text-black font-bold rounded-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.4)] transition-all duration-300 transform hover:translateY(-1px)"
+                            >
+                                Start Free Consultation
+                            </button>
+                            
+                            <p class="text-xs text-gray-500 text-center">
+                                By submitting this form, you agree to our privacy policy. We'll never spam you.
+                            </p>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1242,13 +1305,14 @@
         </div>
     </footer>
 
-    
-    <!-- Chatbot Bubble -->
-    <div class="chat-bubble" onclick="toggleChat()">
-        <div class="chat-bubble-avatar">
-            <img src="Web Images/Daniel.png" alt="Daniel" onerror="this.style.display='none'">
+    <!-- Chat Bubble -->
+    <div class="chat-bubble" id="chatBubble" onclick="toggleChat()">
+        <div class="chat-bubble-content">
+            <div class="chat-bubble-avatar">
+                <img src="Web Images/Daniel.png" alt="Daniel" onerror="this.style.display='none'">
+            </div>
+            <div class="chat-bubble-text">Talk to Daniel</div>
         </div>
-        <div class="chat-bubble-text">Talk to Daniel!</div>
     </div>
     
     <!-- Chat Interface -->
@@ -1264,7 +1328,7 @@
                 </div>
             </div>
             <button class="chat-close" onclick="toggleChat()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
@@ -1273,14 +1337,21 @@
         
         <div class="chat-messages" id="chatMessages">
             <div class="chat-message bot">
-                Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?
+                <div class="chat-message-avatar">
+                    <img src="Web Images/Daniel.png" alt="Daniel">
+                </div>
+                <div class="chat-message-content">
+                    Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?
+                </div>
             </div>
         </div>
         
-        <div class="typing-indicator" id="typingIndicator">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         
         <div class="chat-input-container">
@@ -1299,10 +1370,6 @@
             </button>
         </div>
     </div>
-    
-    
-    <!-- Simli Widget -->
-    <simli-widget token="gAAAAABoZLmBmr8oTaW1juzFnxgFNJjojWYA9niMFz0gs6Q_-sLvb6i9uSE0F0Ob9GPJyhOhMclax_Xn5aXL8q_ZMp9HcF1LzvuC2c8kGBMaIntnpSWy2hF1C3NovsOj1nfOhsvFll1NW1P7ys9rVFdU3zM6sMwufYua9E5f2hmFiZpNTpoS2xxTm-oIldi5nwLNSR7seF7bVua7KSr8msybuC1CjOC2D_A9jaHlMTIO0k7eT4ubDCG12eM1R-XYJmVfJXcYtHX12y-4t2pYBW_M3Y3DB1rJhLOoMMxpDgzg66qJyO6YIJXfenOK5Or3THTMy_iJbC3rC43228r2QYSOOLYzrKkKKO2y1WVP9mbE_0ZqUCRstXPXkUbWWRNzYI1BiBqWM0QGrIoutS4ImzwdSqUV56eFaw==" agentid="48ba2ad4-cec8-4b4b-b0ec-59d10525ae87" position="left" customimage="" customtext="Talk to Daniel" ></simli-widget>
+
     <script src="script.js"></script>
-    <script src="https://app.simli.com/simli-widget/index.js" async type="text/javascript"></script>
 </body>
