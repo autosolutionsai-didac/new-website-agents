@@ -810,41 +810,85 @@
             }
         });
 
-        // Function for HTML chat interface send button
-        window.sendMessage = function() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Add user message to HTML chat interface
-            addHTMLMessage('user', message);
-            input.value = '';
-            
-            // Show typing indicator
-            const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) typingIndicator.style.display = 'block';
-            
-                         // Send to webhook
+                 // Function for HTML chat interface send button
+         window.sendMessage = function() {
+             const input = document.getElementById('chatInput');
+             const message = input.value.trim();
+             
+             if (!message) return;
+             
+             // Add user message to HTML chat interface
+             addHTMLMessage('user', message);
+             input.value = '';
+             
+             // Show typing indicator
+             const typingIndicator = document.getElementById('typingIndicator');
+             if (typingIndicator) typingIndicator.style.display = 'block';
+             
+             // Set up timeout for 30 seconds
+             const timeoutId = setTimeout(() => {
+                 if (typingIndicator) typingIndicator.style.display = 'none';
+                 addHTMLMessage('bot', 'I apologize, but I\'m experiencing some technical difficulties right now. Please try again in a moment or contact our support team.');
+             }, 30000);
+             
+             // Send to webhook
              fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/1dea1ecd-3a21-4750-b932-2b911b3a0921', {
                  method: 'POST',
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ message: message, sessionId: sessionId })
              })
-            .then(res => res.json())
-            .then(data => {
-                // Hide typing indicator
-                if (typingIndicator) typingIndicator.style.display = 'none';
-                // Add bot response
-                const reply = data.reply || data.response || data.message || 'Thanks for your message! I\'ll help you learn more about My Virtual Employee.';
-                addHTMLMessage('bot', reply);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                if (typingIndicator) typingIndicator.style.display = 'none';
-                addHTMLMessage('bot', 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment.');
-            });
-        };
+             .then(res => {
+                 // Clear timeout since we got a response
+                 clearTimeout(timeoutId);
+                 
+                 // Check if response is okay
+                 if (!res.ok) {
+                     throw new Error(`HTTP error! status: ${res.status}`);
+                 }
+                 
+                 // Try to parse as JSON, but handle text responses too
+                 const contentType = res.headers.get('content-type');
+                 if (contentType && contentType.includes('application/json')) {
+                     return res.json();
+                 } else {
+                     return res.text().then(text => ({ message: text }));
+                 }
+             })
+             .then(data => {
+                 // Hide typing indicator
+                 if (typingIndicator) typingIndicator.style.display = 'none';
+                 
+                 // Extract the actual response message
+                 let reply;
+                 if (typeof data === 'string') {
+                     reply = data;
+                 } else if (data.reply) {
+                     reply = data.reply;
+                 } else if (data.response) {
+                     reply = data.response;
+                 } else if (data.message) {
+                     reply = data.message;
+                 } else if (data.output) {
+                     reply = data.output;
+                 } else {
+                     // If we get "Workflow started" or similar, show a generic message
+                     if (JSON.stringify(data).toLowerCase().includes('workflow started')) {
+                         reply = 'Thanks for your message! I\'m processing your request and will respond shortly.';
+                     } else {
+                         reply = 'Thanks for your message! I\'ll help you learn more about My Virtual Employee.';
+                     }
+                 }
+                 
+                 addHTMLMessage('bot', reply);
+             })
+             .catch(error => {
+                 // Clear timeout on error
+                 clearTimeout(timeoutId);
+                 console.error('Error:', error);
+                 if (typingIndicator) typingIndicator.style.display = 'none';
+                 addHTMLMessage('bot', 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment.');
+             });
+         };
 
         // Function to add messages to HTML chat interface
         function addHTMLMessage(sender, content) {
