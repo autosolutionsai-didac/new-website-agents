@@ -733,143 +733,35 @@
             });
         }
 
-        // --- Chatbot via n8n Webhook ---
-        const N8N_WEBHOOK_URL = 'https://autosolutions-ai-cloud.app.n8n.cloud/webhook/4fccff12-dcf2-4b31-8b80-0f87611e521f';
-        let sessionId = localStorage.getItem('chatSessionId');
-        if (!sessionId) {
-            sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now();
-            localStorage.setItem('chatSessionId', sessionId);
-        }
+        // Generate random session ID
+        let sessionId = Math.random().toString(36).substring(2) + Date.now().toString(36);
 
-        function addChatMessage(sender, text) {
+        // Add to chat messages with proper styling
+        function addMessage(sender, content, isUser = false) {
             const chatMessages = document.getElementById('chatMessages');
-            if (!chatMessages) {
-                console.error('chatMessages element not found');
-                return;
-            }
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `chat-message ${sender}`;
-            msgDiv.innerHTML = sender === 'bot'
-                ? `<div class="chat-message-avatar"><img src="Web Images/Daniel.png" alt="Daniel"></div><div class="chat-message-content">${text}</div>`
-                : `<div class="chat-message-content">${text}</div>`;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Declare sendMessage as a global function
-        window.sendMessage = function() {
-            console.log('sendMessage function called');
-            const input = document.getElementById('chatInput');
-            if (!input) {
-                console.error('chatInput element not found');
-                return;
-            }
+            if (!chatMessages) return;
             
-            const message = input.value.trim();
-            console.log('Message to send:', message);
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `display: flex; margin-bottom: 10px; ${isUser ? 'justify-content: flex-end;' : ''}`;
             
-            if (!message) {
-                console.log('Empty message, not sending');
-                return;
-            }
-            
-            // Add user message to chat
-            addChatMessage('user', message);
-            input.value = '';
-            
-            // Show typing indicator
-            showTypingIndicator(true);
-            
-            // Send to webhook
-            console.log('Sending to webhook...');
-            sendToWebhook(message, sessionId)
-                .then(botReply => {
-                    console.log('Bot reply received:', botReply);
-                    addChatMessage('bot', botReply);
-                    showTypingIndicator(false);
-                })
-                .catch((error) => {
-                    console.error('Webhook error:', error);
-                    addChatMessage('bot', 'Sorry, there was a problem connecting to Daniel. Please try again later.');
-                    showTypingIndicator(false);
-                });
-        };
-
-        window.closeChat = function() {
-            const chatContainer = document.getElementById('chatContainer');
-            const chatBubble = document.getElementById('chatBubble');
-            if (chatContainer) chatContainer.style.display = 'none';
-            if (chatBubble) chatBubble.style.display = 'flex';
-        };
-
-        function toggleChat() {
-            let chatContainer = document.getElementById('chatContainer');
-            let chatBubble = document.getElementById('chatBubble');
-            if (!chatContainer) {
-                // Create chat container if missing
-                chatContainer = document.createElement('div');
-                chatContainer.id = 'chatContainer';
-                chatContainer.className = 'chat-container fixed bottom-24 right-8 z-50 bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-2xl p-4 w-80 max-w-full flex flex-col';
-                chatContainer.innerHTML = `
-                    <div class="flex items-center justify-between mb-2 pb-3 border-b border-gray-700">
-                        <div class="flex items-center">
-                            <img src='Web Images/Daniel.png' alt='Daniel' class='h-10 w-10 rounded-full mr-3 border-2 border-[var(--color-primary)]'>
-                            <div>
-                                <span class='font-bold text-[var(--color-primary)] text-lg'>Daniel</span>
-                                <div class='text-xs text-green-400 font-semibold'>AI Assistant • Online</div>
-                            </div>
-                        </div>
-                        <button onclick="closeChat()" class="close-btn w-8 h-8 rounded-full bg-gray-800 hover:bg-red-600 flex items-center justify-center transition-all duration-200 text-gray-400 hover:text-white">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="chatMessages" class="flex-1 overflow-y-auto mb-2 bg-black/30 rounded p-2" style="max-height: 300px;">
-                        <div class="chat-message bot">
-                            <div class="chat-message-avatar"><img src="Web Images/Daniel.png" alt="Daniel"></div>
-                            <div class="chat-message-content">Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?</div>
-                        </div>
-                    </div>
-                    <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
-                    <div class="flex">
-                        <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeypress="if(event.key==='Enter'){event.preventDefault();window.sendMessage();}">
-                        <button onclick="window.sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div style="background: #00FF88; color: black; padding: 10px; border-radius: 15px; max-width: 70%;">
+                        ${content}
                     </div>
                 `;
-                document.body.appendChild(chatContainer);
-                console.log('Chat container created with welcome message');
+            } else {
+                messageDiv.innerHTML = `
+                    <img src="Web Images/Daniel.png" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 8px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; color: white; max-width: 70%;">
+                        ${content}
+                    </div>
+                `;
             }
-            chatContainer.style.display = 'flex';
-            if (chatBubble) chatBubble.style.display = 'none';
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-
-        // Test function to verify button works
-        function testSend() {
-            console.log('Test send button clicked');
-            alert('Button is working!');
-        }
-
-        function showTypingIndicator(show) {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) {
-                indicator.style.display = show ? 'block' : 'none';
-            }
-        }
-
-        async function sendToWebhook(message, sessionId) {
-            const res = await fetch(N8N_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message, sessionId })
-            });
-            if (!res.ok) throw new Error('Webhook error');
-            const data = await res.json();
-            // Expecting response: { reply: "..." } or similar
-            return data.reply || data.response || data.message || 'No response from agent.';
-        }
-        // --- End chatbot via n8n Webhook ---
 
         // Ensure chat interface is hidden on load
         window.addEventListener('DOMContentLoaded', function() {
@@ -877,4 +769,108 @@
             if (chatContainer) chatContainer.style.display = 'none';
             const chatBubble = document.getElementById('chatBubble');
             if (chatBubble) chatBubble.style.display = 'flex';
+        });
+
+        function toggleChat() {
+            let chatContainer = document.getElementById('chatContainer');
+            let chatBubble = document.getElementById('chatBubble');
+            
+            if (!chatContainer) {
+                // Create simple, working chat container
+                chatContainer = document.createElement('div');
+                chatContainer.id = 'chatContainer';
+                chatContainer.style.cssText = `
+                    position: fixed;
+                    bottom: 2rem;
+                    right: 2rem;
+                    width: 350px;
+                    height: 450px;
+                    background: rgba(17, 17, 17, 0.95);
+                    border: 2px solid #00FF88;
+                    border-radius: 15px;
+                    display: flex;
+                    flex-direction: column;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                `;
+                
+                chatContainer.innerHTML = `
+                    <div style="padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center;">
+                            <img src="Web Images/Daniel.png" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid #00FF88;">
+                            <div>
+                                <div style="color: #00FF88; font-weight: bold;">Daniel</div>
+                                <div style="color: #00FFB3; font-size: 12px;">AI Assistant • Online</div>
+                            </div>
+                        </div>
+                        <button onclick="closeChat()" style="background: #333; border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 18px;">&times;</button>
+                    </div>
+                    
+                    <div id="chatMessages" style="flex: 1; padding: 15px; overflow-y: auto; background: rgba(0,0,0,0.3);">
+                        <div style="display: flex; margin-bottom: 10px;">
+                            <img src="Web Images/Daniel.png" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 8px;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; color: white;">
+                                Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="typingIndicator" style="padding: 0 15px; color: #888; font-size: 12px; display: none;">Daniel is typing...</div>
+                    
+                    <div style="padding: 15px; display: flex; gap: 10px;">
+                        <input id="chatInput" type="text" placeholder="Type your message..." style="flex: 1; padding: 12px; border: 1px solid #333; border-radius: 25px; background: rgba(0,0,0,0.5); color: white; outline: none;">
+                        <button onclick="sendChatMessage()" style="background: #00FF88; color: black; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold;">Send</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(chatContainer);
+            }
+            
+            chatContainer.style.display = 'flex';
+            if (chatBubble) chatBubble.style.display = 'none';
+        }
+
+        function closeChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatBubble = document.getElementById('chatBubble');
+            if (chatContainer) chatContainer.style.display = 'none';
+            if (chatBubble) chatBubble.style.display = 'flex';
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage('user', message, true);
+            input.value = '';
+            
+            // Show typing indicator
+            document.getElementById('typingIndicator').style.display = 'block';
+            
+            // Send to webhook
+            fetch('https://autosolutions-ai-cloud.app.n8n.cloud/webhook/4fccff12-dcf2-4b31-8b80-0f87611e521f', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message, sessionId: sessionId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('typingIndicator').style.display = 'none';
+                addMessage('bot', data.reply || data.response || data.message || 'Thanks for your message!');
+            })
+            .catch(error => {
+                document.getElementById('typingIndicator').style.display = 'none';
+                addMessage('bot', 'Sorry, there was a connection error. Please try again.');
+            });
+        }
+
+        // Handle Enter key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && document.getElementById('chatInput') === document.activeElement) {
+                event.preventDefault();
+                sendChatMessage();
+            }
         });
