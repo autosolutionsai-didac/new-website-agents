@@ -780,7 +780,7 @@
                     <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
                     <div class="flex">
                         <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeypress="if(event.key==='Enter'){event.preventDefault();sendMessage();}">
-                        <button onclick="testSend()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Test</button>
+                        <button onclick="sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
                     </div>
                 `;
                 document.body.appendChild(chatContainer);
