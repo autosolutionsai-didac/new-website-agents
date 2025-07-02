@@ -756,42 +756,8 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        function toggleChat() {
-            let chatContainer = document.getElementById('chatContainer');
-            let chatBubble = document.getElementById('chatBubble');
-            if (!chatContainer) {
-                // Create chat container if missing
-                chatContainer = document.createElement('div');
-                chatContainer.id = 'chatContainer';
-                chatContainer.className = 'chat-container fixed bottom-24 right-8 z-50 bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-2xl p-4 w-80 max-w-full flex flex-col';
-                chatContainer.innerHTML = `
-                    <div class="flex items-center mb-2">
-                        <img src='Web Images/Daniel.png' alt='Daniel' class='h-8 w-8 rounded-full mr-2'>
-                        <span class='font-bold text-[var(--color-primary)]'>Daniel</span>
-                        <span class='ml-2 text-xs text-green-400 font-semibold'>AI Assistant • Online</span>
-                        <button onclick="closeChat()" class="ml-auto text-gray-400 hover:text-white text-xl font-bold">&times;</button>
-                    </div>
-                    <div id="chatMessages" class="flex-1 overflow-y-auto mb-2 bg-black/30 rounded p-2" style="max-height: 300px;">
-                        <div class="chat-message bot">
-                            <div class="chat-message-avatar"><img src="Web Images/Daniel.png" alt="Daniel"></div>
-                            <div class="chat-message-content">Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?</div>
-                        </div>
-                    </div>
-                    <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
-                    <div class="flex">
-                        <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeypress="if(event.key==='Enter'){event.preventDefault();sendMessage();}">
-                        <button onclick="sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
-                    </div>
-                `;
-                document.body.appendChild(chatContainer);
-                console.log('Chat container created with welcome message');
-            }
-            chatContainer.style.display = 'flex';
-            if (chatBubble) chatBubble.style.display = 'none';
-        }
-
-        // Make sendMessage a regular function that's accessible globally
-        function sendMessage() {
+        // Declare sendMessage as a global function
+        window.sendMessage = function() {
             console.log('sendMessage function called');
             const input = document.getElementById('chatInput');
             if (!input) {
@@ -827,13 +793,56 @@
                     addChatMessage('bot', 'Sorry, there was a problem connecting to Daniel. Please try again later.');
                     showTypingIndicator(false);
                 });
-        }
+        };
 
-        function closeChat() {
+        window.closeChat = function() {
             const chatContainer = document.getElementById('chatContainer');
             const chatBubble = document.getElementById('chatBubble');
             if (chatContainer) chatContainer.style.display = 'none';
             if (chatBubble) chatBubble.style.display = 'flex';
+        };
+
+        function toggleChat() {
+            let chatContainer = document.getElementById('chatContainer');
+            let chatBubble = document.getElementById('chatBubble');
+            if (!chatContainer) {
+                // Create chat container if missing
+                chatContainer = document.createElement('div');
+                chatContainer.id = 'chatContainer';
+                chatContainer.className = 'chat-container fixed bottom-24 right-8 z-50 bg-[var(--color-card-bg)] border border-gray-800 rounded-2xl shadow-2xl p-4 w-80 max-w-full flex flex-col';
+                chatContainer.innerHTML = `
+                    <div class="flex items-center justify-between mb-2 pb-3 border-b border-gray-700">
+                        <div class="flex items-center">
+                            <img src='Web Images/Daniel.png' alt='Daniel' class='h-10 w-10 rounded-full mr-3 border-2 border-[var(--color-primary)]'>
+                            <div>
+                                <span class='font-bold text-[var(--color-primary)] text-lg'>Daniel</span>
+                                <div class='text-xs text-green-400 font-semibold'>AI Assistant • Online</div>
+                            </div>
+                        </div>
+                        <button onclick="closeChat()" class="close-btn w-8 h-8 rounded-full bg-gray-800 hover:bg-red-600 flex items-center justify-center transition-all duration-200 text-gray-400 hover:text-white">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="chatMessages" class="flex-1 overflow-y-auto mb-2 bg-black/30 rounded p-2" style="max-height: 300px;">
+                        <div class="chat-message bot">
+                            <div class="chat-message-avatar"><img src="Web Images/Daniel.png" alt="Daniel"></div>
+                            <div class="chat-message-content">Hi! I'm Daniel, your AI assistant. How can I help you learn more about My Virtual Employee today?</div>
+                        </div>
+                    </div>
+                    <div id="typingIndicator" class="text-gray-400 text-sm mb-2" style="display:none;">Daniel is typing...</div>
+                    <div class="flex">
+                        <input id="chatInput" type="text" class="flex-1 rounded-l-lg px-3 py-2 bg-black/60 border border-gray-700 text-white focus:outline-none" placeholder="Type your message..." onkeypress="if(event.key==='Enter'){event.preventDefault();window.sendMessage();}">
+                        <button onclick="window.sendMessage()" class="bg-[var(--color-primary)] text-black px-4 py-2 rounded-r-lg font-bold hover:bg-[var(--color-accent)] transition">Send</button>
+                    </div>
+                `;
+                document.body.appendChild(chatContainer);
+                console.log('Chat container created with welcome message');
+            }
+            chatContainer.style.display = 'flex';
+            if (chatBubble) chatBubble.style.display = 'none';
         }
 
         // Test function to verify button works
