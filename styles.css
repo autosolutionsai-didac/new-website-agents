@@ -198,41 +198,44 @@
             animation: rotate-slow 120s linear infinite;
         }
 
-        /* Chat Bubble Styles */
+        /* Chat Bubble Pill Style */
         .chat-bubble {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             z-index: 50;
-            width: 72px;
-            height: 72px;
-            background: #111;
-            border: 2px solid var(--color-primary);
-            border-radius: 50%;
-            box-shadow: 0 0 24px 4px var(--color-primary), 0 2px 16px #000;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.75rem;
+            background: #181818;
+            border: 2px solid var(--color-primary);
+            border-radius: 999px;
+            padding: 0.5rem 1.25rem 0.5rem 0.5rem;
+            box-shadow: 0 2px 16px #000;
             cursor: pointer;
-            transition: box-shadow 0.3s, border 0.3s, background 0.3s;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
         }
 
         .chat-bubble:hover {
-            box-shadow: 0 0 40px 8px var(--color-primary), 0 4px 32px #000;
-            background: #181818;
+            border-color: var(--color-accent);
+            background: #222;
+            box-shadow: 0 0 16px var(--color-primary), 0 2px 16px #000;
         }
 
         .chat-bubble-avatar img {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 2px solid var(--color-primary);
             background: #222;
             object-fit: cover;
         }
 
-        .chat-bubble-content {
-            display: none;
+        .chat-bubble-text {
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            white-space: nowrap;
         }
 
         /* Chat Interface Styles */
@@ -498,8 +501,7 @@
             .chat-bubble {
                 right: 1rem;
                 bottom: 1rem;
-                width: 56px;
-                height: 56px;
+                padding: 0.4rem 1rem 0.4rem 0.4rem;
             }
             #chatContainer {
                 right: 0.5rem;
@@ -516,6 +518,13 @@
             }
             #chatContainer .flex {
                 padding: 0 1rem 1rem 1rem;
+            }
+            .chat-bubble-avatar img {
+                width: 32px;
+                height: 32px;
+            }
+            .chat-bubble-text {
+                font-size: 0.95rem;
             }
         }
 
